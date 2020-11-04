@@ -1,6 +1,6 @@
 const {expect, assert} = require('chai');
 const DelayableAddon = ("../../../src/index.js").default;
-const LeanES = require("../../../src/leanes/index.js").default;
+const LeanES = require('leanes').default;
 const {
   initialize, partOf, nameBy, meta, mixin, constant, method
 } = LeanES.NS;
