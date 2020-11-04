@@ -19,7 +19,7 @@ import EventEmitter from 'events';
 import type { ResqueInterface } from '../interfaces/ResqueInterface';
 import type { NotificationInterface } from '@leansdk/leanes/src';
 
-import { inject } from "inversify";
+import { inject } from 'inversify';
 
 export default (Module) => {
   const {

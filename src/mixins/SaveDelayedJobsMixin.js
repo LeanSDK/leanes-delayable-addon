@@ -15,7 +15,7 @@
 
 import type { ResqueInterface } from '../interfaces/ResqueInterface';
 
-import { inject } from "inversify";
+import { inject } from 'inversify';
 
 export default (Module) => {
   const {
