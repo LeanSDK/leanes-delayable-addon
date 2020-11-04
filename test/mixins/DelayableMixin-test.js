@@ -1,4 +1,5 @@
 const {expect, assert} = require('chai');
+const DelayableAddon = ("../../../src/index.js").default;
 const LeanES = require("../../../src/leanes/index.js").default;
 const {
   initialize, partOf, nameBy, meta, mixin, constant, method
@@ -15,6 +16,7 @@ describe('DelayableMixin', () => {
       facade = LeanES.NS.Facade.getInstance(KEY);
 
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static  __filename = 'Test';
         @meta static object = {};
@@ -89,6 +91,7 @@ describe('DelayableMixin', () => {
       const KEY = 'TEST_DELAYABLE_MIXIN_002';
       facade = LeanES.NS.Facade.getInstance(KEY);
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static  __filename = 'Test';
         @meta static object = {};
@@ -160,6 +163,7 @@ describe('DelayableMixin', () => {
       facade = LeanES.NS.Facade.getInstance(KEY);
 
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static  __filename = 'Test';
         @meta static object = {};

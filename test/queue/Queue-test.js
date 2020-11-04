@@ -1,6 +1,7 @@
 const { expect, assert } = require('chai');
 const sinon = require('sinon');
 const _ = require('lodash');
+const DelayableAddon = ("../../../src/index.js").default;
 const LeanES = require("../../../src/leanes/index.js").default;
 const {
   initialize, partOf, nameBy, meta, constant, method, attribute, mixin, resolver
@@ -12,6 +13,7 @@ describe('Queue', () => {
       const RESQUE = 'RESQUE';
 
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -54,6 +56,7 @@ describe('Queue', () => {
       })
 
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -105,6 +108,7 @@ describe('Queue', () => {
       });
 
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -153,6 +157,7 @@ describe('Queue', () => {
       });
 
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -201,6 +206,7 @@ describe('Queue', () => {
       });
 
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -248,6 +254,7 @@ describe('Queue', () => {
       });
 
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -296,6 +303,7 @@ describe('Queue', () => {
       });
 
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -344,6 +352,7 @@ describe('Queue', () => {
       });
 
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -392,6 +401,7 @@ describe('Queue', () => {
       });
 
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -441,6 +451,7 @@ describe('.failed', () => {
     });
 
     @initialize
+    @mixin(DelayableAddon)
     class Test extends LeanES {
       @nameBy static __filename = 'Test';
       @meta static object = {};
@@ -487,6 +498,7 @@ describe('.failed', () => {
       facade = LeanES.NS.Facade.getInstance(KEY);
 
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -536,6 +548,7 @@ describe('.failed', () => {
       facade = LeanES.NS.Facade.getInstance(KEY);
 
       @initialize
+      @mixin(DelayableAddon)
       @resolver(require, name => require(name))
       class Test extends LeanES {
         @nameBy static __filename = 'Test';

@@ -1,6 +1,7 @@
 const { expect, assert } = require('chai');
 const sinon = require('sinon');
 const _ = require('lodash');
+const DelayableAddon = ("../../../src/index.js").default;
 const LeanES = require("../../../src/leanes/index.js").default;
 const {
   initialize, partOf, nameBy, meta, constant, mixin, property, method
@@ -10,6 +11,7 @@ describe('Resque', () => {
   describe('.new', () => {
     it('should create resque instance', () => {
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -30,6 +32,7 @@ describe('Resque', () => {
   describe('.fullQueueName', () => {
     it('should get full queue name', () => {
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -51,6 +54,7 @@ describe('Resque', () => {
   describe('.create', () => {
     it('should create new queue', async () => {
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -94,6 +98,7 @@ describe('Resque', () => {
   describe('.all', () => {
     it('should get all queues', async () => {
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -149,6 +154,7 @@ describe('Resque', () => {
   describe('.get', () => {
     it('should get single queue', async () => {
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -197,6 +203,7 @@ describe('Resque', () => {
   describe('.remove', () => {
     it('should remove single queue', async () => {
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -252,6 +259,7 @@ describe('Resque', () => {
   describe('.update', () => {
     it('should update single queue', async () => {
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -308,6 +316,7 @@ describe('Resque', () => {
       const MULTITON_KEY = 'TEST_RESQUE_001';
       facade = LeanES.NS.Facade.getInstance(MULTITON_KEY);
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -375,6 +384,7 @@ describe('Resque', () => {
       const MULTITON_KEY = 'TEST_RESQUE_001|>123456-5432-234-5432';
       facade = LeanES.NS.Facade.getInstance(MULTITON_KEY);
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -436,6 +446,7 @@ describe('Resque', () => {
       const MULTITON_KEY = 'TEST_RESQUE_001|>123456-5432-234-5432';
       facade = LeanES.NS.Facade.getInstance(MULTITON_KEY);
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};

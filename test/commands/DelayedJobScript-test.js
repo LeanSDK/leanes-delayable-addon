@@ -1,6 +1,7 @@
 const { expect, assert } = require('chai');
 const _ = require('lodash');
 const EventEmitter = require('events');
+const DelayableAddon = ("../../../src/index.js").default;
 const LeanES = require("../../../src/leanes/index.js").default;
 const {
   initialize, partOf, nameBy, meta, constant, method
@@ -24,6 +25,7 @@ describe('DelayedJobScript', () => {
       const trigger = new EventEmitter();
 
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -88,6 +90,7 @@ describe('DelayedJobScript', () => {
       const trigger = new EventEmitter();
 
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -151,6 +154,7 @@ describe('DelayedJobScript', () => {
       const trigger = new EventEmitter();
 
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -214,6 +218,7 @@ describe('DelayedJobScript', () => {
       const trigger = new EventEmitter();
 
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};

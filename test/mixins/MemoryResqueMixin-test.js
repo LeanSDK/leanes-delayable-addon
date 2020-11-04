@@ -1,6 +1,7 @@
 const { expect, assert } = require('chai');
 const sinon = require('sinon');
 const _ = require('lodash');
+const DelayableAddon = ("../../../src/index.js").default;
 const LeanES = require("../../../src/leanes/index.js").default;
 const {
   initialize, partOf, nameBy, meta, constant, mixin, property, method, attribute, action
@@ -12,6 +13,7 @@ describe('MemoryResqueMixin', () => {
     it('should create resque instance', () => {
 
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -35,6 +37,7 @@ describe('MemoryResqueMixin', () => {
     it('should register resque instance', () => {
 
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -65,6 +68,7 @@ describe('MemoryResqueMixin', () => {
     it('should unregister resque instance', () => {
 
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -97,6 +101,7 @@ describe('MemoryResqueMixin', () => {
     it('should create queue config', () => {
 
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -123,6 +128,7 @@ describe('MemoryResqueMixin', () => {
     it('should get queue', async () => {
 
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -149,6 +155,7 @@ describe('MemoryResqueMixin', () => {
     it('should remove queue', async () => {
 
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -177,6 +184,7 @@ describe('MemoryResqueMixin', () => {
     it('should get all queues', async () => {
 
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -237,6 +245,7 @@ describe('MemoryResqueMixin', () => {
     it('should save new job', async () => {
 
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -277,6 +286,7 @@ describe('MemoryResqueMixin', () => {
     it('should get saved job', async () => {
 
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -317,6 +327,7 @@ describe('MemoryResqueMixin', () => {
     it('should removed saved job', async () => {
 
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -359,6 +370,7 @@ describe('MemoryResqueMixin', () => {
     it('should list all jobs', async () => {
 
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -398,6 +410,7 @@ describe('MemoryResqueMixin', () => {
     it('should list pending jobs', async () => {
 
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -436,6 +449,7 @@ describe('MemoryResqueMixin', () => {
     it('should list runnning jobs', async () => {
 
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -474,6 +488,7 @@ describe('MemoryResqueMixin', () => {
     it('should list complete jobs', async () => {
 
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -512,6 +527,7 @@ describe('MemoryResqueMixin', () => {
     it('should list failed jobs', async () => {
 
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};

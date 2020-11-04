@@ -1,5 +1,6 @@
 const EventEmitter = require('events');
 const { expect, assert } = require('chai');
+const DelayableAddon = ("../../../src/index.js").default;
 const LeanES = require("../../../src/leanes/index.js").default;
 const {
   initialize, partOf, nameBy, meta, constant, mixin, method
@@ -14,6 +15,7 @@ describe('MemoryExecutorMixin', () => {
       };
 
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -41,6 +43,7 @@ describe('MemoryExecutorMixin', () => {
       };
 
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -68,6 +71,7 @@ describe('MemoryExecutorMixin', () => {
       };
 
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -96,6 +100,7 @@ describe('MemoryExecutorMixin', () => {
       };
 
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -124,6 +129,7 @@ describe('MemoryExecutorMixin', () => {
       };
 
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -180,6 +186,7 @@ describe('MemoryExecutorMixin', () => {
       };
 
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -245,6 +252,7 @@ describe('MemoryExecutorMixin', () => {
       facade = LeanES.NS.Facade.getInstance(KEY);
 
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -298,6 +306,7 @@ describe('MemoryExecutorMixin', () => {
       facade = LeanES.NS.Facade.getInstance(KEY);
 
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -356,6 +365,7 @@ describe('MemoryExecutorMixin', () => {
       const trigger = new EventEmitter();
 
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -414,6 +424,7 @@ describe('MemoryExecutorMixin', () => {
       let test = null;
 
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -474,6 +485,7 @@ describe('MemoryExecutorMixin', () => {
       let test = null;
 
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -533,6 +545,7 @@ describe('MemoryExecutorMixin', () => {
       let test = null;
 
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -577,6 +590,7 @@ describe('MemoryExecutorMixin', () => {
       facade = LeanES.NS.Facade.getInstance(KEY);
 
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -628,6 +642,7 @@ describe('MemoryExecutorMixin', () => {
       const trigger = new EventEmitter();
 
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -694,6 +709,7 @@ describe('MemoryExecutorMixin', () => {
       facade = LeanES.NS.Facade.getInstance(KEY);
 
       @initialize
+      @mixin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
