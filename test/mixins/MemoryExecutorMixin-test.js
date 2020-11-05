@@ -3,7 +3,7 @@ const { expect, assert } = require('chai');
 const DelayableAddon = ("../../../src/index.js").default;
 const LeanES = require('leanes').default;
 const {
-  initialize, partOf, nameBy, meta, constant, mixin, method
+  initialize, partOf, nameBy, meta, constant, mixin, method, plugin
 } = LeanES.NS;
 
 describe('MemoryExecutorMixin', () => {
@@ -15,7 +15,7 @@ describe('MemoryExecutorMixin', () => {
       };
 
       @initialize
-      @mixin(DelayableAddon)
+      @plugin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -23,7 +23,7 @@ describe('MemoryExecutorMixin', () => {
       }
 
       @initialize
-      @mixin(LeanES.NS.MemoryExecutorMixin)
+      @mixin(Test.NS.MemoryExecutorMixin)
       @partOf(Test)
       class MemoryResqueExecutor extends LeanES.NS.Mediator {
         @nameBy static __filename = 'MemoryResqueExecutor';
@@ -43,7 +43,7 @@ describe('MemoryExecutorMixin', () => {
       };
 
       @initialize
-      @mixin(DelayableAddon)
+      @plugin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -51,7 +51,7 @@ describe('MemoryExecutorMixin', () => {
       }
 
       @initialize
-      @mixin(LeanES.NS.MemoryExecutorMixin)
+      @mixin(Test.NS.MemoryExecutorMixin)
       @partOf(Test)
       class MemoryResqueExecutor extends LeanES.NS.Mediator {
         @nameBy static __filename = 'MemoryResqueExecutor';
@@ -71,7 +71,7 @@ describe('MemoryExecutorMixin', () => {
       };
 
       @initialize
-      @mixin(DelayableAddon)
+      @plugin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -79,7 +79,7 @@ describe('MemoryExecutorMixin', () => {
       }
 
       @initialize
-      @mixin(LeanES.NS.MemoryExecutorMixin)
+      @mixin(Test.NS.MemoryExecutorMixin)
       @partOf(Test)
       class MemoryResqueExecutor extends LeanES.NS.Mediator {
         @nameBy static __filename = 'MemoryResqueExecutor';
@@ -100,7 +100,7 @@ describe('MemoryExecutorMixin', () => {
       };
 
       @initialize
-      @mixin(DelayableAddon)
+      @plugin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -108,7 +108,7 @@ describe('MemoryExecutorMixin', () => {
       }
 
       @initialize
-      @mixin(LeanES.NS.MemoryExecutorMixin)
+      @mixin(Test.NS.MemoryExecutorMixin)
       @partOf(Test)
       class MemoryResqueExecutor extends LeanES.NS.Mediator {
         @nameBy static __filename = 'MemoryResqueExecutor';
@@ -129,7 +129,7 @@ describe('MemoryExecutorMixin', () => {
       };
 
       @initialize
-      @mixin(DelayableAddon)
+      @plugin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -137,7 +137,7 @@ describe('MemoryExecutorMixin', () => {
       }
 
       @initialize
-      @mixin(LeanES.NS.MemoryExecutorMixin)
+      @mixin(Test.NS.MemoryExecutorMixin)
       @partOf(Test)
       class MemoryResqueExecutor extends LeanES.NS.Mediator {
         @nameBy static __filename = 'MemoryResqueExecutor';
@@ -186,7 +186,7 @@ describe('MemoryExecutorMixin', () => {
       };
 
       @initialize
-      @mixin(DelayableAddon)
+      @plugin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -194,7 +194,7 @@ describe('MemoryExecutorMixin', () => {
       }
 
       @initialize
-      @mixin(LeanES.NS.MemoryExecutorMixin)
+      @mixin(Test.NS.MemoryExecutorMixin)
       @partOf(Test)
       class MemoryResqueExecutor extends LeanES.NS.Mediator {
         @nameBy static __filename = 'MemoryResqueExecutor';
@@ -252,7 +252,7 @@ describe('MemoryExecutorMixin', () => {
       facade = LeanES.NS.Facade.getInstance(KEY);
 
       @initialize
-      @mixin(DelayableAddon)
+      @plugin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -260,15 +260,15 @@ describe('MemoryExecutorMixin', () => {
       }
 
       @initialize
-      @mixin(LeanES.NS.MemoryResqueMixin)
+      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
-      class TestResque extends LeanES.NS.Resque {
+      class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResque';
         @meta static object = {};
       }
 
       @initialize
-      @mixin(LeanES.NS.MemoryExecutorMixin)
+      @mixin(Test.NS.MemoryExecutorMixin)
       @partOf(Test)
       class MemoryResqueExecutor extends LeanES.NS.Mediator {
         @nameBy static __filename = 'MemoryResqueExecutor';
@@ -306,7 +306,7 @@ describe('MemoryExecutorMixin', () => {
       facade = LeanES.NS.Facade.getInstance(KEY);
 
       @initialize
-      @mixin(DelayableAddon)
+      @plugin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -314,15 +314,15 @@ describe('MemoryExecutorMixin', () => {
       }
 
       @initialize
-      @mixin(LeanES.NS.MemoryResqueMixin)
+      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
-      class TestResque extends LeanES.NS.Resque {
+      class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResque';
         @meta static object = {};
       }
 
       @initialize
-      @mixin(LeanES.NS.MemoryExecutorMixin)
+      @mixin(Test.NS.MemoryExecutorMixin)
       @partOf(Test)
       class MemoryResqueExecutor extends LeanES.NS.Mediator {
         @nameBy static __filename = 'MemoryResqueExecutor';
@@ -365,7 +365,7 @@ describe('MemoryExecutorMixin', () => {
       const trigger = new EventEmitter();
 
       @initialize
-      @mixin(DelayableAddon)
+      @plugin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -373,15 +373,15 @@ describe('MemoryExecutorMixin', () => {
       }
 
       @initialize
-      @mixin(LeanES.NS.MemoryResqueMixin)
+      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
-      class TestResque extends LeanES.NS.Resque {
+      class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResque';
         @meta static object = {};
       }
 
       @initialize
-      @mixin(LeanES.NS.MemoryExecutorMixin)
+      @mixin(Test.NS.MemoryExecutorMixin)
       @partOf(Test)
       class MemoryResqueExecutor extends LeanES.NS.Mediator {
         @nameBy static __filename = 'MemoryResqueExecutor';
@@ -424,7 +424,7 @@ describe('MemoryExecutorMixin', () => {
       let test = null;
 
       @initialize
-      @mixin(DelayableAddon)
+      @plugin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -432,15 +432,15 @@ describe('MemoryExecutorMixin', () => {
       }
 
       @initialize
-      @mixin(LeanES.NS.MemoryResqueMixin)
+      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
-      class TestResque extends LeanES.NS.Resque {
+      class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResque';
         @meta static object = {};
       }
 
       @initialize
-      @mixin(LeanES.NS.MemoryExecutorMixin)
+      @mixin(Test.NS.MemoryExecutorMixin)
       @partOf(Test)
       class MemoryResqueExecutor extends LeanES.NS.Mediator {
         @nameBy static __filename = 'MemoryResqueExecutor';
@@ -485,7 +485,7 @@ describe('MemoryExecutorMixin', () => {
       let test = null;
 
       @initialize
-      @mixin(DelayableAddon)
+      @plugin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -493,15 +493,15 @@ describe('MemoryExecutorMixin', () => {
       }
 
       @initialize
-      @mixin(LeanES.NS.MemoryResqueMixin)
+      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
-      class TestResque extends LeanES.NS.Resque {
+      class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResque';
         @meta static object = {};
       }
 
       @initialize
-      @mixin(LeanES.NS.MemoryExecutorMixin)
+      @mixin(Test.NS.MemoryExecutorMixin)
       @partOf(Test)
       class MemoryResqueExecutor extends LeanES.NS.Mediator {
         @nameBy static __filename = 'MemoryResqueExecutor';
@@ -545,7 +545,7 @@ describe('MemoryExecutorMixin', () => {
       let test = null;
 
       @initialize
-      @mixin(DelayableAddon)
+      @plugin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -553,15 +553,15 @@ describe('MemoryExecutorMixin', () => {
       }
 
       @initialize
-      @mixin(LeanES.NS.MemoryResqueMixin)
+      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
-      class TestResque extends LeanES.NS.Resque {
+      class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResque';
         @meta static object = {};
       }
 
       @initialize
-      @mixin(LeanES.NS.MemoryExecutorMixin)
+      @mixin(Test.NS.MemoryExecutorMixin)
       @partOf(Test)
       class MemoryResqueExecutor extends LeanES.NS.Mediator {
         @nameBy static __filename = 'MemoryResqueExecutor';
@@ -590,7 +590,7 @@ describe('MemoryExecutorMixin', () => {
       facade = LeanES.NS.Facade.getInstance(KEY);
 
       @initialize
-      @mixin(DelayableAddon)
+      @plugin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -598,15 +598,15 @@ describe('MemoryExecutorMixin', () => {
       }
 
       @initialize
-      @mixin(LeanES.NS.MemoryResqueMixin)
+      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
-      class TestResque extends LeanES.NS.Resque {
+      class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResque';
         @meta static object = {};
       }
 
       @initialize
-      @mixin(LeanES.NS.MemoryExecutorMixin)
+      @mixin(Test.NS.MemoryExecutorMixin)
       @partOf(Test)
       class MemoryResqueExecutor extends LeanES.NS.Mediator {
         @nameBy static __filename = 'MemoryResqueExecutor';
@@ -642,7 +642,7 @@ describe('MemoryExecutorMixin', () => {
       const trigger = new EventEmitter();
 
       @initialize
-      @mixin(DelayableAddon)
+      @plugin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -650,15 +650,15 @@ describe('MemoryExecutorMixin', () => {
       }
 
       @initialize
-      @mixin(LeanES.NS.MemoryResqueMixin)
+      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
-      class TestResque extends LeanES.NS.Resque {
+      class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResque';
         @meta static object = {};
       }
 
       @initialize
-      @mixin(LeanES.NS.MemoryExecutorMixin)
+      @mixin(Test.NS.MemoryExecutorMixin)
       @partOf(Test)
       class MemoryResqueExecutor extends LeanES.NS.Mediator {
         @nameBy static __filename = 'MemoryResqueExecutor';
@@ -709,7 +709,7 @@ describe('MemoryExecutorMixin', () => {
       facade = LeanES.NS.Facade.getInstance(KEY);
 
       @initialize
-      @mixin(DelayableAddon)
+      @plugin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -717,15 +717,15 @@ describe('MemoryExecutorMixin', () => {
       }
 
       @initialize
-      @mixin(LeanES.NS.MemoryResqueMixin)
+      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
-      class TestResque extends LeanES.NS.Resque {
+      class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResque';
         @meta static object = {};
       }
 
       @initialize
-      @mixin(LeanES.NS.MemoryExecutorMixin)
+      @mixin(Test.NS.MemoryExecutorMixin)
       @partOf(Test)
       class MemoryResqueExecutor extends LeanES.NS.Mediator {
         @nameBy static __filename = 'MemoryResqueExecutor';

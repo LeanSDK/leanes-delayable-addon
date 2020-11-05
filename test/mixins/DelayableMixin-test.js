@@ -2,7 +2,7 @@ const {expect, assert} = require('chai');
 const DelayableAddon = ("../../../src/index.js").default;
 const LeanES = require('leanes').default;
 const {
-  initialize, partOf, nameBy, meta, mixin, constant, method
+  initialize, partOf, nameBy, meta, mixin, constant, method, plugin
 } = LeanES.NS;
 
 describe('DelayableMixin', () => {
@@ -16,7 +16,7 @@ describe('DelayableMixin', () => {
       facade = LeanES.NS.Facade.getInstance(KEY);
 
       @initialize
-      @mixin(DelayableAddon)
+      @plugin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static  __filename = 'Test';
         @meta static object = {};
@@ -33,15 +33,15 @@ describe('DelayableMixin', () => {
       }
 
       @initialize
-      @mixin(LeanES.NS.MemoryResqueMixin)
+      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
-      class TestResque extends LeanES.NS.Resque {
+      class TestResque extends Test.NS.Resque {
         @nameBy static  __filename = 'TestResque';
         @meta static object = {};
       }
 
       @initialize
-      @mixin(LeanES.NS.DelayableMixin)
+      @mixin(Test.NS.DelayableMixin)
       @partOf(Test)
       class TestTest extends LeanES.NS.CoreObject {
         @nameBy static  __filename = 'TestTest';
@@ -91,7 +91,7 @@ describe('DelayableMixin', () => {
       const KEY = 'TEST_DELAYABLE_MIXIN_002';
       facade = LeanES.NS.Facade.getInstance(KEY);
       @initialize
-      @mixin(DelayableAddon)
+      @plugin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static  __filename = 'Test';
         @meta static object = {};
@@ -99,16 +99,16 @@ describe('DelayableMixin', () => {
       }
 
       @initialize
-      @mixin(LeanES.NS.MemoryResqueMixin)
+      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
-      class TestResque extends LeanES.NS.Resque {
+      class TestResque extends Test.NS.Resque {
         @nameBy static  __filename = 'TestResque';
         @meta static object = {};
       }
 
 
       @initialize
-      @mixin(LeanES.NS.DelayableMixin)
+      @mixin(Test.NS.DelayableMixin)
       @partOf(Test)
       class TestTest extends LeanES.NS.CoreObject {
         @nameBy static  __filename = 'TestTest';
@@ -163,7 +163,7 @@ describe('DelayableMixin', () => {
       facade = LeanES.NS.Facade.getInstance(KEY);
 
       @initialize
-      @mixin(DelayableAddon)
+      @plugin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static  __filename = 'Test';
         @meta static object = {};
@@ -171,16 +171,16 @@ describe('DelayableMixin', () => {
       }
 
       @initialize
-      @mixin(LeanES.NS.MemoryResqueMixin)
+      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
-      class TestResque extends LeanES.NS.Resque {
+      class TestResque extends Test.NS.Resque {
         @nameBy static  __filename = 'TestResque';
         @meta static object = {};
       }
 
 
       @initialize
-      @mixin(LeanES.NS.DelayableMixin)
+      @mixin(Test.NS.DelayableMixin)
       @partOf(Test)
       class TestTest extends LeanES.NS.CoreObject {
         @nameBy static  __filename = 'TestTest';

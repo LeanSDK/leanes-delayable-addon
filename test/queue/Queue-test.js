@@ -4,7 +4,7 @@ const _ = require('lodash');
 const DelayableAddon = ("../../../src/index.js").default;
 const LeanES = require('leanes').default;
 const {
-  initialize, partOf, nameBy, meta, constant, method, attribute, mixin, resolver
+  initialize, partOf, nameBy, meta, constant, method, attribute, mixin, resolver, plugin
 } = LeanES.NS;
 
 describe('Queue', () => {
@@ -13,23 +13,23 @@ describe('Queue', () => {
       const RESQUE = 'RESQUE';
 
       @initialize
-      @mixin(DelayableAddon)
+      @plugin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
       }
 
       @initialize
-      @mixin(LeanES.NS.MemoryResqueMixin)
+      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
-      class TestResque extends LeanES.NS.Resque {
+      class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResque';
         @meta static object = {};
       }
 
       @initialize
       @partOf(Test)
-      class MyQueue extends LeanES.NS.Queue {
+      class MyQueue extends Test.NS.Queue {
         @nameBy static __filename = 'MyQueue';
         @meta static object = {};
       }
@@ -56,16 +56,16 @@ describe('Queue', () => {
       })
 
       @initialize
-      @mixin(DelayableAddon)
+      @plugin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
       }
 
       @initialize
-      @mixin(LeanES.NS.MemoryResqueMixin)
+      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
-      class TestResque extends LeanES.NS.Resque {
+      class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResque';
         @meta static object = {};
         @method pushJob(... args) {
@@ -75,7 +75,7 @@ describe('Queue', () => {
 
       @initialize
       @partOf(Test)
-      class MyQueue extends LeanES.NS.Queue {
+      class MyQueue extends Test.NS.Queue {
         @nameBy static __filename = 'MyQueue';
         @meta static object = {};
       }
@@ -108,16 +108,16 @@ describe('Queue', () => {
       });
 
       @initialize
-      @mixin(DelayableAddon)
+      @plugin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
       }
 
       @initialize
-      @mixin(LeanES.NS.MemoryResqueMixin)
+      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
-      class TestResque extends LeanES.NS.Resque {
+      class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResque';
         @meta static object = {};
         @method getJob(... args) {
@@ -127,7 +127,7 @@ describe('Queue', () => {
 
       @initialize
       @partOf(Test)
-      class MyQueue extends LeanES.NS.Queue {
+      class MyQueue extends Test.NS.Queue {
         @nameBy static __filename = 'MyQueue';
         @meta static object = {};
       }
@@ -157,16 +157,16 @@ describe('Queue', () => {
       });
 
       @initialize
-      @mixin(DelayableAddon)
+      @plugin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
       }
 
       @initialize
-      @mixin(LeanES.NS.MemoryResqueMixin)
+      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
-      class TestResque extends LeanES.NS.Resque {
+      class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResque';
         @meta static object = {};
         @method deleteJob(... args) {
@@ -176,7 +176,7 @@ describe('Queue', () => {
 
       @initialize
       @partOf(Test)
-      class MyQueue extends LeanES.NS.Queue {
+      class MyQueue extends Test.NS.Queue {
         @nameBy static __filename = 'MyQueue';
         @meta static object = {};
       }
@@ -206,16 +206,16 @@ describe('Queue', () => {
       });
 
       @initialize
-      @mixin(DelayableAddon)
+      @plugin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
       }
 
       @initialize
-      @mixin(LeanES.NS.MemoryResqueMixin)
+      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
-      class TestResque extends LeanES.NS.Resque {
+      class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResque';
         @meta static object = {};
         @method abortJob(... args) {
@@ -225,7 +225,7 @@ describe('Queue', () => {
 
       @initialize
       @partOf(Test)
-      class MyQueue extends LeanES.NS.Queue {
+      class MyQueue extends Test.NS.Queue {
         @nameBy static __filename = 'MyQueue';
         @meta static object = {};
       }
@@ -254,16 +254,16 @@ describe('Queue', () => {
       });
 
       @initialize
-      @mixin(DelayableAddon)
+      @plugin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
       }
 
       @initialize
-      @mixin(LeanES.NS.MemoryResqueMixin)
+      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
-      class TestResque extends LeanES.NS.Resque {
+      class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResque';
         @meta static object = {};
         @method allJobs(... args) {
@@ -273,7 +273,7 @@ describe('Queue', () => {
 
       @initialize
       @partOf(Test)
-      class MyQueue extends LeanES.NS.Queue {
+      class MyQueue extends Test.NS.Queue {
         @nameBy static __filename = 'MyQueue';
         @meta static object = {};
       }
@@ -303,16 +303,16 @@ describe('Queue', () => {
       });
 
       @initialize
-      @mixin(DelayableAddon)
+      @plugin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
       }
 
       @initialize
-      @mixin(LeanES.NS.MemoryResqueMixin)
+      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
-      class TestResque extends LeanES.NS.Resque {
+      class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResque';
         @meta static object = {};
         @method pendingJobs(... args) {
@@ -322,7 +322,7 @@ describe('Queue', () => {
 
       @initialize
       @partOf(Test)
-      class MyQueue extends LeanES.NS.Queue {
+      class MyQueue extends Test.NS.Queue {
         @nameBy static __filename = 'MyQueue';
         @meta static object = {};
       }
@@ -352,16 +352,16 @@ describe('Queue', () => {
       });
 
       @initialize
-      @mixin(DelayableAddon)
+      @plugin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
       }
 
       @initialize
-      @mixin(LeanES.NS.MemoryResqueMixin)
+      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
-      class TestResque extends LeanES.NS.Resque {
+      class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResque';
         @meta static object = {};
         @method progressJobs(... args) {
@@ -371,7 +371,7 @@ describe('Queue', () => {
 
       @initialize
       @partOf(Test)
-      class MyQueue extends LeanES.NS.Queue {
+      class MyQueue extends Test.NS.Queue {
         @nameBy static __filename = 'MyQueue';
         @meta static object = {};
       }
@@ -401,16 +401,16 @@ describe('Queue', () => {
       });
 
       @initialize
-      @mixin(DelayableAddon)
+      @plugin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
       }
 
       @initialize
-      @mixin(LeanES.NS.MemoryResqueMixin)
+      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
-      class TestResque extends LeanES.NS.Resque {
+      class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResque';
         @meta static object = {};
         @method completedJobs(... args) {
@@ -420,7 +420,7 @@ describe('Queue', () => {
 
       @initialize
       @partOf(Test)
-      class MyQueue extends LeanES.NS.Queue {
+      class MyQueue extends Test.NS.Queue {
         @nameBy static __filename = 'MyQueue';
         @meta static object = {};
       }
@@ -451,16 +451,16 @@ describe('.failed', () => {
     });
 
     @initialize
-    @mixin(DelayableAddon)
+    @plugin(DelayableAddon)
     class Test extends LeanES {
       @nameBy static __filename = 'Test';
       @meta static object = {};
     }
 
     @initialize
-    @mixin(LeanES.NS.MemoryResqueMixin)
+    @mixin(Test.NS.MemoryResqueMixin)
     @partOf(Test)
-    class TestResque extends LeanES.NS.Resque {
+    class TestResque extends Test.NS.Resque {
       @nameBy static __filename = 'TestResque';
       @meta static object = {};
       @method failedJobs(... args) {
@@ -470,7 +470,7 @@ describe('.failed', () => {
 
     @initialize
     @partOf(Test)
-    class MyQueue extends LeanES.NS.Queue {
+    class MyQueue extends Test.NS.Queue {
       @nameBy static __filename = 'MyQueue';
       @meta static object = {};
     }
@@ -498,16 +498,16 @@ describe('.failed', () => {
       facade = LeanES.NS.Facade.getInstance(KEY);
 
       @initialize
-      @mixin(DelayableAddon)
+      @plugin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
       }
 
       @initialize
-      @mixin(LeanES.NS.MemoryResqueMixin)
+      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
-      class TestResque extends LeanES.NS.Resque {
+      class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResque';
         @meta static object = {};
         @method failedJobs(... args) {
@@ -517,7 +517,7 @@ describe('.failed', () => {
 
       @initialize
       @partOf(Test)
-      class MyQueue extends LeanES.NS.Queue {
+      class MyQueue extends Test.NS.Queue {
         @nameBy static __filename = 'MyQueue';
         @meta static object = {};
       }
@@ -548,7 +548,7 @@ describe('.failed', () => {
       facade = LeanES.NS.Facade.getInstance(KEY);
 
       @initialize
-      @mixin(DelayableAddon)
+      @plugin(DelayableAddon)
       @resolver(require, name => require(name))
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
@@ -556,9 +556,9 @@ describe('.failed', () => {
       }
 
       @initialize
-      @mixin(LeanES.NS.MemoryResqueMixin)
+      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
-      class TestResque extends LeanES.NS.Resque {
+      class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResque';
         @meta static object = {};
         @method failedJobs(... args) {
@@ -568,7 +568,7 @@ describe('.failed', () => {
 
       @initialize
       @partOf(Test)
-      class MyQueue extends LeanES.NS.Queue {
+      class MyQueue extends Test.NS.Queue {
         @nameBy static __filename = 'MyQueue';
         @meta static object = {};
       }

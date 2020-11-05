@@ -4,14 +4,14 @@ const EventEmitter = require('events');
 const DelayableAddon = ("../../../src/index.js").default;
 const LeanES = require('leanes').default;
 const {
-  initialize, partOf, nameBy, meta, constant, method
+  initialize, partOf, nameBy, meta, constant, method, plugin
 } = LeanES.NS;
 
 describe('DelayedJobScript', () => {
   describe('.new', () => {
     it('should create new command', () => {
-      const command = LeanES.NS.DelayedJobScript.new();
-      assert.instanceOf(command, LeanES.NS.DelayedJobScript);
+      const command = Test.NS.DelayedJobScript.new();
+      assert.instanceOf(command, Test.NS.DelayedJobScript);
     });
   });
   describe('.body', () => {
@@ -25,7 +25,7 @@ describe('DelayedJobScript', () => {
       const trigger = new EventEmitter();
 
       @initialize
-      @mixin(DelayableAddon)
+      @plugin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -34,7 +34,7 @@ describe('DelayedJobScript', () => {
 
       @initialize
       @partOf(Test)
-      class TestScript extends LeanES.NS.DelayedJobScript {
+      class TestScript extends Test.NS.DelayedJobScript {
         @nameBy static __filename = 'TestScript';
         @meta static object = {};
       }
@@ -90,7 +90,7 @@ describe('DelayedJobScript', () => {
       const trigger = new EventEmitter();
 
       @initialize
-      @mixin(DelayableAddon)
+      @plugin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -99,7 +99,7 @@ describe('DelayedJobScript', () => {
 
       @initialize
       @partOf(Test)
-      class TestScript extends LeanES.NS.DelayedJobScript {
+      class TestScript extends Test.NS.DelayedJobScript {
         @nameBy static __filename = 'TestScript';
         @meta static object = {};
       }
@@ -154,7 +154,7 @@ describe('DelayedJobScript', () => {
       const trigger = new EventEmitter();
 
       @initialize
-      @mixin(DelayableAddon)
+      @plugin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -163,7 +163,7 @@ describe('DelayedJobScript', () => {
 
       @initialize
       @partOf(Test)
-      class TestScript extends LeanES.NS.DelayedJobScript {
+      class TestScript extends Test.NS.DelayedJobScript {
         @nameBy static __filename = 'TestScript';
         @meta static object = {};
       }
@@ -218,7 +218,7 @@ describe('DelayedJobScript', () => {
       const trigger = new EventEmitter();
 
       @initialize
-      @mixin(DelayableAddon)
+      @plugin(DelayableAddon)
       class Test extends LeanES {
         @nameBy static __filename = 'Test';
         @meta static object = {};
@@ -227,7 +227,7 @@ describe('DelayedJobScript', () => {
 
       @initialize
       @partOf(Test)
-      class TestScript extends LeanES.NS.DelayedJobScript {
+      class TestScript extends Test.NS.DelayedJobScript {
         @nameBy static __filename = 'TestScript';
         @meta static object = {};
       }
