@@ -45,7 +45,7 @@ export default (Module) => {
           break;
         case 'instance':
           const vcInstanceClass = ApplicationModule.NS[replica.class];
-          (vcInstanceClass: $Rest<RecoverableStaticInterface<Module, vcInstanceClass>>);
+          (vcInstanceClass: $Diff<RecoverableStaticInterface<Module, vcInstanceClass>, {}>);
           replicated = await vcInstanceClass.restoreObject(ApplicationModule, replica);
           await replicated[methodName](...args);
           break;
