@@ -3,12 +3,12 @@ color: true
 extension:
   - 'js'
 file:
-  # - './test/commands/DelayedJobCommand-test.js'
-  # - './test/mixins/DelayableMixin-test.js'
-  # - './test/mixins/MemoryExecutorMixin-test.js'
+  - './test/commands/DelayedJobCommand-test.js'
+  - './test/mixins/DelayableMixin-test.js'
+  - './test/mixins/MemoryExecutorMixin-test.js'
   - './test/mixins/MemoryResqueMixin-test.js'
-  # - './test/proxies/Resque-test.js'
-  # - './test/queue/Queue-test.js'
+  - './test/proxies/Resque-test.js'
+  - './test/queue/Queue-test.js'
 full-trace: true
 growl: true
 recursive: false

@@ -1,7 +1,7 @@
 const { expect, assert } = require('chai');
 const sinon = require('sinon');
 const _ = require('lodash');
-const DelayableAddon = ("../../../src/index.js").default;
+const DelayableAddon = require("../../src/index.js").default;
 const LeanES = require('@leansdk/leanes/src/leanes').default;
 const {
   initialize, partOf, nameBy, meta, constant, method, attribute, mixin, resolver, plugin
@@ -86,7 +86,7 @@ describe('Queue', () => {
         name: 'TEST_QUEUE',
         concurrency: 4
       }, resque);
-      const UNTIL_DATE = new Date();
+      const UNTIL_DATE = Date.now();
       const job = await queue.push('TEST_SCRIPT', { data: 'data' }, UNTIL_DATE);
       assert.equal(job, 42);
       assert.isTrue(spyMethod.called);
