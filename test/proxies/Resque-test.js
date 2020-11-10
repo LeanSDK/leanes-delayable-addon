@@ -1,7 +1,7 @@
 const { expect, assert } = require('chai');
 const sinon = require('sinon');
 const _ = require('lodash');
-const DelayableAddon = ("../../../src/index.js").default;
+const DelayableAddon = require("../../src/index.js").default;
 const LeanES = require('@leansdk/leanes/src/leanes').default;
 const {
   initialize, partOf, nameBy, meta, constant, mixin, property, method, plugin
@@ -297,7 +297,7 @@ describe('Resque', () => {
     });
     it('should put delayed procedure into queue', async () => {
       const MULTITON_KEY = 'TEST_RESQUE_001';
-      facade = LeanES.NS.Facade.getInstance(MULTITON_KEY);
+
       @initialize
       @plugin(DelayableAddon)
       class Test extends LeanES {
@@ -305,6 +305,16 @@ describe('Resque', () => {
         @meta static object = {};
         @constant ROOT = `${__dirname}/config/root`;
       }
+
+      @initialize
+      @partOf(Test)
+      class ApplicationFacade extends Test.NS.Facade {
+        @nameBy static  __filename = 'ApplicationFacade';
+        @meta static object = {};
+      }
+
+      facade = ApplicationFacade.getInstance('Test');
+
       @initialize
       @partOf(Test)
       class TestResque extends Test.NS.Resque {
@@ -362,7 +372,7 @@ describe('Resque', () => {
     });
     it('should put delayed procedure into cache', async () => {
       const MULTITON_KEY = 'TEST_RESQUE_001|>123456-5432-234-5432';
-      facade = LeanES.NS.Facade.getInstance(MULTITON_KEY);
+
       @initialize
       @plugin(DelayableAddon)
       class Test extends LeanES {
@@ -370,6 +380,16 @@ describe('Resque', () => {
         @meta static object = {};
         @constant ROOT = `${__dirname}/config/root`;
       }
+
+      @initialize
+      @partOf(Test)
+      class ApplicationFacade extends Test.NS.Facade {
+        @nameBy static  __filename = 'ApplicationFacade';
+        @meta static object = {};
+      }
+
+      facade = ApplicationFacade.getInstance(MULTITON_KEY);
+
       @initialize
       @partOf(Test)
       class TestResque extends Test.NS.Resque {
@@ -421,7 +441,7 @@ describe('Resque', () => {
     });
     it('should get delayed jobs from cache', async () => {
       const MULTITON_KEY = 'TEST_RESQUE_001|>123456-5432-234-5432';
-      facade = LeanES.NS.Facade.getInstance(MULTITON_KEY);
+
       @initialize
       @plugin(DelayableAddon)
       class Test extends LeanES {
@@ -429,6 +449,16 @@ describe('Resque', () => {
         @meta static object = {};
         @constant ROOT = `${__dirname}/config/root`;
       }
+
+      @initialize
+      @partOf(Test)
+      class ApplicationFacade extends Test.NS.Facade {
+        @nameBy static  __filename = 'ApplicationFacade';
+        @meta static object = {};
+      }
+
+      facade = ApplicationFacade.getInstance(MULTITON_KEY);
+
       @initialize
       @partOf(Test)
       class TestResque extends Test.NS.Resque {
