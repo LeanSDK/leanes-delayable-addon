@@ -1,7 +1,7 @@
 const { expect, assert } = require('chai');
 const sinon = require('sinon');
 const _ = require('lodash');
-const DelayableAddon = ("../../../src/index.js").default;
+const DelayableAddon = require("../../src/index.js").default;
 const LeanES = require('@leansdk/leanes/src/leanes').default;
 const {
   initialize, partOf, nameBy, meta, constant, mixin, property, method, attribute, action, plugin
@@ -21,8 +21,8 @@ describe('MemoryResqueMixin', () => {
       }
 
       @initialize
-      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
+      @mixin(Test.NS.MemoryResqueMixin)
       class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResponse';
         @meta static object = {};
@@ -45,8 +45,8 @@ describe('MemoryResqueMixin', () => {
       }
 
       @initialize
-      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
+      @mixin(Test.NS.MemoryResqueMixin)
       class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResponse';
         @meta static object = {};
@@ -76,8 +76,8 @@ describe('MemoryResqueMixin', () => {
       }
 
       @initialize
-      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
+      @mixin(Test.NS.MemoryResqueMixin)
       class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResponse';
         @meta static object = {};
@@ -109,8 +109,8 @@ describe('MemoryResqueMixin', () => {
       }
 
       @initialize
-      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
+      @mixin(Test.NS.MemoryResqueMixin)
       class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResponse';
         @meta static object = {};
@@ -136,8 +136,8 @@ describe('MemoryResqueMixin', () => {
       }
 
       @initialize
-      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
+      @mixin(Test.NS.MemoryResqueMixin)
       class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResponse';
         @meta static object = {};
@@ -163,8 +163,8 @@ describe('MemoryResqueMixin', () => {
       }
 
       @initialize
-      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
+      @mixin(Test.NS.MemoryResqueMixin)
       class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResponse';
         @meta static object = {};
@@ -192,8 +192,8 @@ describe('MemoryResqueMixin', () => {
       }
 
       @initialize
-      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
+      @mixin(Test.NS.MemoryResqueMixin)
       class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResponse';
         @meta static object = {};
@@ -253,8 +253,8 @@ describe('MemoryResqueMixin', () => {
       }
 
       @initialize
-      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
+      @mixin(Test.NS.MemoryResqueMixin)
       class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResponse';
         @meta static object = {};
@@ -294,8 +294,8 @@ describe('MemoryResqueMixin', () => {
       }
 
       @initialize
-      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
+      @mixin(Test.NS.MemoryResqueMixin)
       class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResponse';
         @meta static object = {};
@@ -335,8 +335,8 @@ describe('MemoryResqueMixin', () => {
       }
 
       @initialize
-      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
+      @mixin(Test.NS.MemoryResqueMixin)
       class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResponse';
         @meta static object = {};
@@ -378,8 +378,8 @@ describe('MemoryResqueMixin', () => {
       }
 
       @initialize
-      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
+      @mixin(Test.NS.MemoryResqueMixin)
       class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResponse';
         @meta static object = {};
@@ -418,8 +418,8 @@ describe('MemoryResqueMixin', () => {
       }
 
       @initialize
-      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
+      @mixin(Test.NS.MemoryResqueMixin)
       class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResponse';
         @meta static object = {};
@@ -457,8 +457,8 @@ describe('MemoryResqueMixin', () => {
       }
 
       @initialize
-      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
+      @mixin(Test.NS.MemoryResqueMixin)
       class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResponse';
         @meta static object = {};
@@ -496,8 +496,8 @@ describe('MemoryResqueMixin', () => {
       }
 
       @initialize
-      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
+      @mixin(Test.NS.MemoryResqueMixin)
       class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResponse';
         @meta static object = {};
@@ -535,8 +535,8 @@ describe('MemoryResqueMixin', () => {
       }
 
       @initialize
-      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
+      @mixin(Test.NS.MemoryResqueMixin)
       class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResponse';
         @meta static object = {};
