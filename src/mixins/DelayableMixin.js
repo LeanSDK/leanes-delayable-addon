@@ -60,8 +60,7 @@ export default (Module) => {
               throw new Error(`Method \`${name}\` absent in class ${target.name}`);
             }
             const Proto = target.constructor;
-            // (Proto: $Diff<RecoverableStaticInterface<target.Module, Proto>>);
-            (Proto: $Rest<RecoverableStaticInterface<target.Module, Proto>>);
+            (Proto: Class<{replicateObject: $ElementType<RecoverableStaticInterface<Module, vcInstanceClass>, 'replicateObject'>}>);
             return async (...args) => {
               const data = {
                 moduleName: target.moduleName(),
