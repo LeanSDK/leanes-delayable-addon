@@ -14,7 +14,7 @@
 // along with leanes-delayable-addon.  If not, see <https://www.gnu.org/licenses/>.
 
 import type { DelayableInterface } from '../interfaces/DelayableInterface';
-import type { RecoverableStaticInterface } from '@leansdk/leanes/src';
+import type { RecoverableStaticInterface } from '@leansdk/leanes/src/leanes';
 
 export default (Module) => {
   const {
@@ -23,34 +23,34 @@ export default (Module) => {
     initializeMixin, meta, method
   } = Module.NS;
 
-  Module.defineMixin(__filename, (BaseClass: Class<CoreObject>) => {
+  Module.defineMixin(__filename, (BaseClass) => {
     @initializeMixin
     class Mixin extends BaseClass implements DelayableInterface {
       @meta static object = {};
 
       // cpmDelayJob = PointerT(_Class.private(_Class.static(_Class.async({
       @method static async _delayJob(
-        target: CoreObject | Class<CoreObject>,
+        target,//: CoreObject | Class<CoreObject>,
         data: {|
           moduleName: string,
           replica: object,
           methodName: string,
           args: array,
-          opts: {queue: ?string, delayUntil: ?number}
+          opts: {/*queue: ?string, delayUntil: ?number*/}
         |},
-        options: {queue: ?string, delayUntil: ?number}
+        options//: {queue: ?string, delayUntil: ?number}
       ) {
         const queueName = options.queue;
         const {
           Facade
         } = target.Module.NS;
-        const voFacade = Facade.getInstance(this.Module.name);
+        const voFacade = Facade.getInstance(target.Module.name);
         const resque = voFacade.getProxy(RESQUE);
         const queue = await resque.get(queueName || DELAYED_JOBS_QUEUE);
         await queue.delay(DELAYED_JOB_COMMAND, data, options.delayUntil);
       }
 
-      @method static delay(opts: ?{queue: ?string, delayUntil: ?number} = {}): object {
+      @method static delay(opts/*: ?{queue: ?string, delayUntil: ?number} = {}*/): object {
         return new Proxy(this, {
           get: function(target, name, receiver) {
             if (name === 'delay') {
@@ -60,7 +60,8 @@ export default (Module) => {
               throw new Error(`Method \`${name}\` absent in class ${target.name}`);
             }
             const Proto = target.constructor;
-            (Proto: $Diff<RecoverableStaticInterface<target.Module, Proto>, {}>);
+            // (Proto: $Diff<RecoverableStaticInterface<target.Module, Proto>>);
+            (Proto: $Rest<RecoverableStaticInterface<target.Module, Proto>>);
             return async (...args) => {
               const data = {
                 moduleName: target.moduleName(),

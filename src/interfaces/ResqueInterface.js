@@ -16,6 +16,9 @@
 import type { QueueInterface } from './QueueInterface';
 
 export interface ResqueInterface {
+
+  _resqueI: 'ResqueInterface';
+
   tmpJobs: Array<{|
     queueName: string,
     scriptName: string,

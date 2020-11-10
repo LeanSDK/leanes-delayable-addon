@@ -1,6 +1,6 @@
 const {expect, assert} = require('chai');
-const DelayableAddon = ("../../../src/index.js").default;
-const LeanES = require('leanes').default;
+const DelayableAddon = require("../../src/index.js").default;
+const LeanES = require('@leansdk/leanes/src/leanes').default;
 const {
   initialize, partOf, nameBy, meta, mixin, constant, method, plugin
 } = LeanES.NS;
@@ -13,7 +13,6 @@ describe('DelayableMixin', () => {
     });
     it('should put job into delayed queue', async () => {
       const KEY = 'TEST_DELAYABLE_MIXIN_001';
-      facade = LeanES.NS.Facade.getInstance(KEY);
 
       @initialize
       @plugin(DelayableAddon)
@@ -25,6 +24,15 @@ describe('DelayableMixin', () => {
 
       @initialize
       @partOf(Test)
+      class ApplicationFacade extends Test.NS.Facade {
+        @nameBy static  __filename = 'ApplicationFacade';
+        @meta static object = {};
+      }
+
+      facade = ApplicationFacade.getInstance('Test');
+
+      @initialize
+      @partOf(Test)
       class TestClass extends LeanES.NS.CoreObject {
         @nameBy static  __filename = 'TestClass';
         @meta static object = {};
@@ -32,31 +40,32 @@ describe('DelayableMixin', () => {
         @method static test () {}
       }
 
-      @initialize
-      @mixin(Test.NS.MemoryResqueMixin)
-      @partOf(Test)
-      class TestResque extends Test.NS.Resque {
-        @nameBy static  __filename = 'TestResque';
-        @meta static object = {};
-      }
+      // @initialize
+      // @partOf(Test)
+      // @mixin(Test.NS.MemoryResqueMixin)
+      // class TestResque extends Test.NS.Resque {
+      //   @nameBy static  __filename = 'TestResque';
+      //   @meta static object = {};
+      // }
 
       @initialize
-      @mixin(Test.NS.DelayableMixin)
       @partOf(Test)
+      @mixin(Test.NS.DelayableMixin)
       class TestTest extends LeanES.NS.CoreObject {
         @nameBy static  __filename = 'TestTest';
         @meta static object = {};
       }
-      const rq = TestResque.new();
-      rq.setName(LeanES.NS.RESQUE);
-      facade.registerProxy(rq);
-      const resque = facade.retrieveProxy(LeanES.NS.RESQUE);
-      await resque.create(LeanES.NS.DELAYED_JOBS_QUEUE, 4);
+      // const rq = TestResque.new();
+      // rq.setName(LeanES.NS.RESQUE);
+      // facade.registerProxy(rq);
+      // facade.addProxy(Test.NS.RESQUE, 'TestResque')
+      const resque = facade.retrieveProxy(Test.NS.RESQUE);
+      await resque.create(Test.NS.DELAYED_JOBS_QUEUE, 4);
       const delayJobSymbol = TestTest.classMethods._delayJob;
       assert.isTrue(delayJobSymbol != null);
       const DELAY_UNTIL = Date.now();
       const options = {
-        queue: LeanES.NS.DELAYED_JOBS_QUEUE,
+        queue: Test.NS.DELAYED_JOBS_QUEUE,
         delayUntil: DELAY_UNTIL
       };
       const DATA = {
@@ -66,13 +75,25 @@ describe('DelayableMixin', () => {
         args: ['ARG_1', 'ARG_2', 'ARG_3'],
         opts: options
       };
-      await TestTest.classMethods._delayJob(facade, DATA, options);
-      const rawQueue = resque._jobs['Test|>delayed_jobs'];
+      await TestTest.classMethods._delayJob(TestClass, DATA, options);
+      const rawQueue = resque._jobs['DelayableAddon|>delayed_jobs'];
+      // const rawQueue = resque._jobs['Test|>delayed_jobs'];
       const [scriptData] = rawQueue;
+      // assert.deepEqual(scriptData, {
+      //   queueName: 'Test|>delayed_jobs',
+      //   data: {
+      //     scriptName: 'DelayedJobScript',
+      //     data: DATA
+      //   },
+      //   delayUntil: DELAY_UNTIL,
+      //   status: 'scheduled',
+      //   lockLifetime: 5000,
+      //   lockLimit: 2
+      // });
       assert.deepEqual(scriptData, {
-        queueName: 'Test|>delayed_jobs',
+        queueName: 'DelayableAddon|>delayed_jobs',
         data: {
-          scriptName: 'DelayedJobScript',
+          scriptName: 'DelayedJobCommand',
           data: DATA
         },
         delayUntil: DELAY_UNTIL,
@@ -89,7 +110,7 @@ describe('DelayableMixin', () => {
     });
     it('should get delayed function wrapper', async () => {
       const KEY = 'TEST_DELAYABLE_MIXIN_002';
-      facade = LeanES.NS.Facade.getInstance(KEY);
+
       @initialize
       @plugin(DelayableAddon)
       class Test extends LeanES {
@@ -97,6 +118,15 @@ describe('DelayableMixin', () => {
         @meta static object = {};
         @constant ROOT = `${__dirname}/config/root`;
       }
+
+      @initialize
+      @partOf(Test)
+      class ApplicationFacade extends Test.NS.Facade {
+        @nameBy static  __filename = 'ApplicationFacade';
+        @meta static object = {};
+      }
+
+      facade = ApplicationFacade.getInstance('Test');
 
       @initialize
       @mixin(Test.NS.MemoryResqueMixin)
@@ -116,22 +146,46 @@ describe('DelayableMixin', () => {
 
         @method static test () {}
       }
-      const rq = TestResque.new();
-      rq.setName(LeanES.NS.RESQUE);
-      facade.registerProxy(rq);
-      const resque = facade.retrieveProxy(LeanES.NS.RESQUE);
-      await resque.create(LeanES.NS.DELAYED_JOBS_QUEUE, 4);
+      // const rq = TestResque.new();
+      // rq.setName(LeanES.NS.RESQUE);
+      // facade.registerProxy(rq);
+      const resque = facade.retrieveProxy(Test.NS.RESQUE);
+      await resque.create(Test.NS.DELAYED_JOBS_QUEUE, 4);
       const DELAY_UNTIL = Date.now();
-      await TestTest.delay(facade, {
-        queue: LeanES.NS.DELAYED_JOBS_QUEUE,
+      await TestTest.delay({
+        queue: Test.NS.DELAYED_JOBS_QUEUE,
         delayUntil: DELAY_UNTIL
       }).test('ARG_1', 'ARG_2', 'ARG_3');
-      const rawQueue = resque._jobs['Test|>delayed_jobs'];
+      const rawQueue = resque._jobs['DelayableAddon|>delayed_jobs'];
+      // const rawQueue = resque._jobs['Test|>delayed_jobs'];
       const [scriptData] = rawQueue;
+      // assert.deepEqual(scriptData, {
+      //   queueName: 'Test|>delayed_jobs',
+      //   data: {
+      //     scriptName: 'DelayedJobScript',
+      //     data: {
+      //       moduleName: 'Test',
+      //       replica: {
+      //         class: 'TestTest',
+      //         type: 'class'
+      //       },
+      //       methodName: 'test',
+      //       args: ['ARG_1', 'ARG_2', 'ARG_3'],
+      //       opts: {
+      //         queue: LeanES.NS.DELAYED_JOBS_QUEUE,
+      //         delayUntil: DELAY_UNTIL
+      //       }
+      //     }
+      //   },
+      //   delayUntil: DELAY_UNTIL,
+      //   status: 'scheduled',
+      //   lockLifetime: 5000,
+      //   lockLimit: 2
+      // });
       assert.deepEqual(scriptData, {
-        queueName: 'Test|>delayed_jobs',
+        queueName: 'DelayableAddon|>delayed_jobs',
         data: {
-          scriptName: 'DelayedJobScript',
+          scriptName: 'DelayedJobCommand',
           data: {
             moduleName: 'Test',
             replica: {
@@ -141,7 +195,7 @@ describe('DelayableMixin', () => {
             methodName: 'test',
             args: ['ARG_1', 'ARG_2', 'ARG_3'],
             opts: {
-              queue: LeanES.NS.DELAYED_JOBS_QUEUE,
+              queue: Test.NS.DELAYED_JOBS_QUEUE,
               delayUntil: DELAY_UNTIL
             }
           }
@@ -160,7 +214,6 @@ describe('DelayableMixin', () => {
     });
     it('should get delayed function wrapper', async () => {
       const KEY = 'TEST_DELAYABLE_MIXIN_003';
-      facade = LeanES.NS.Facade.getInstance(KEY);
 
       @initialize
       @plugin(DelayableAddon)
@@ -169,6 +222,15 @@ describe('DelayableMixin', () => {
         @meta static object = {};
         @constant ROOT = `${__dirname}/config/root`;
       }
+
+      @initialize
+      @partOf(Test)
+      class ApplicationFacade extends Test.NS.Facade {
+        @nameBy static  __filename = 'ApplicationFacade';
+        @meta static object = {};
+      }
+
+      facade = ApplicationFacade.getInstance('Test');
 
       @initialize
       @mixin(Test.NS.MemoryResqueMixin)
@@ -188,22 +250,46 @@ describe('DelayableMixin', () => {
 
         @method static test () {}
       }
-      const rq = TestResque.new();
-      rq.setName(LeanES.NS.RESQUE);
-      facade.registerProxy(rq);
-      const resque = facade.retrieveProxy(LeanES.NS.RESQUE);
-      await resque.create(LeanES.NS.DELAYED_JOBS_QUEUE, 4);
+      // const rq = TestResque.new();
+      // rq.setName(LeanES.NS.RESQUE);
+      // facade.registerProxy(rq);
+      const resque = facade.retrieveProxy(Test.NS.RESQUE);
+      await resque.create(Test.NS.DELAYED_JOBS_QUEUE, 4);
       const DELAY_UNTIL = Date.now();
-      await TestTest.delay(facade, {
-        queue: LeanES.NS.DELAYED_JOBS_QUEUE,
+      await TestTest.delay({
+        queue: Test.NS.DELAYED_JOBS_QUEUE,
         delayUntil: DELAY_UNTIL
       }).test('ARG_1', 'ARG_2', 'ARG_3');
-      const rawQueue = resque._jobs['Test|>delayed_jobs'];
+      const rawQueue = resque._jobs['DelayableAddon|>delayed_jobs'];
+      // const rawQueue = resque._jobs['Test|>delayed_jobs'];
       const [scriptData] = rawQueue;
+      // assert.deepEqual(scriptData, {
+      //   queueName: 'Test|>delayed_jobs',
+      //   data: {
+      //     scriptName: 'DelayedJobScript',
+      //     data: {
+      //       moduleName: 'Test',
+      //       replica: {
+      //         class: 'TestTest',
+      //         type: 'class'
+      //       },
+      //       methodName: 'test',
+      //       args: ['ARG_1', 'ARG_2', 'ARG_3'],
+      //       opts: {
+      //         queue: Test.NS.DELAYED_JOBS_QUEUE,
+      //         delayUntil: DELAY_UNTIL
+      //       }
+      //     }
+      //   },
+      //   delayUntil: DELAY_UNTIL,
+      //   status: 'scheduled',
+      //   lockLifetime: 5000,
+      //   lockLimit: 2
+      // });
       assert.deepEqual(scriptData, {
-        queueName: 'Test|>delayed_jobs',
+        queueName: 'DelayableAddon|>delayed_jobs',
         data: {
-          scriptName: 'DelayedJobScript',
+          scriptName: 'DelayedJobCommand',
           data: {
             moduleName: 'Test',
             replica: {
@@ -213,7 +299,7 @@ describe('DelayableMixin', () => {
             methodName: 'test',
             args: ['ARG_1', 'ARG_2', 'ARG_3'],
             opts: {
-              queue: LeanES.NS.DELAYED_JOBS_QUEUE,
+              queue: Test.NS.DELAYED_JOBS_QUEUE,
               delayUntil: DELAY_UNTIL
             }
           }

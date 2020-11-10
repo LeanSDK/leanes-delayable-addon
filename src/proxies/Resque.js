@@ -33,6 +33,8 @@ export default (Module) => {
     @nameBy static  __filename = __filename;
     @meta static object = {};
 
+    @property _resqueI = 'ResqueInterface';
+
     @property tmpJobs: Array<{|
       queueName: string,
       scriptName: string,

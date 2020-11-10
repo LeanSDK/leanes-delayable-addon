@@ -19,10 +19,11 @@ export type { DelayableInterface } from './interfaces/DelayableInterface';
 
 export default (Module) => {
   const {
+    Module: BaseModule,
     initializeMixin, meta, constant, method, patch
   } = Module.NS;
 
-  return ['DelayableAddon', (BaseClass: Class<Module.NS.Module>) => {
+  return ['DelayableAddon', (BaseClass: Class<BaseModule>) => {
     @initializeMixin
     class Mixin extends BaseClass {
       @meta static object = {};
@@ -36,7 +37,7 @@ export default (Module) => {
       @constant DELAYED_JOB_RESULT = 'DELAYED_JOB_RESULT';
 
       @method static including() {
-        patch(this.NS.Facade, this.NS.FacadePatch);
+        patch(this.NS.FacadePatch)(this.NS.Facade);
       }
     }
     require('./queue/Queue').default(Mixin);

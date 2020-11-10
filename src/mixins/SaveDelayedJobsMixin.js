@@ -39,11 +39,11 @@ export default (Module) => {
         }
       }
 
-      constructor({
-        @inject(`Factory<${RESQUE}>`) resqueFactory: () => ResqueInterface
-      }) {
-        super(... arguments)
-        this._resque = resqueFactory()
+      @inject(`Factory<${RESQUE}>`)
+      @property _resqueFactory:  <T: ResqueInterface>() => {'_resqueI': $ElementType<T, '_resqueI'>};
+
+      @property get resque <T: ResqueInterface>(): {'_resqueI': $ElementType<T, '_resqueI'>} {
+        return this._resqueFactory();
       }
     }
     return Mixin;
