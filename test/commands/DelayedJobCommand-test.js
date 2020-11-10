@@ -288,7 +288,7 @@ describe('DelayedJobCommand', () => {
         @nameBy static __filename = 'TestApplication';
         @meta static object = {};
       }
-      facade.registerMediator(ApplicationMediator.new(LeanES.NS.APPLICATION_MEDIATOR, TestApplication.new()));
+      facade.registerMediator(ApplicationMediator.new(Test.NS.APPLICATION_MEDIATOR, TestApplication.new()));
       // const command = TestScript.new();
       // command.initializeNotifier(KEY);
       const promise = new Promise(function (resolve, reject) {

@@ -1,6 +1,6 @@
 const EventEmitter = require('events');
 const { expect, assert } = require('chai');
-const DelayableAddon = ("../../../src/index.js").default;
+const DelayableAddon = require("../../src/index.js").default;
 const LeanES = require('@leansdk/leanes/src/leanes').default;
 const {
   initialize, partOf, nameBy, meta, constant, mixin, method, plugin
@@ -23,8 +23,8 @@ describe('MemoryExecutorMixin', () => {
       }
 
       @initialize
-      @mixin(Test.NS.MemoryExecutorMixin)
       @partOf(Test)
+      @mixin(Test.NS.MemoryExecutorMixin)
       class MemoryResqueExecutor extends LeanES.NS.Mediator {
         @nameBy static __filename = 'MemoryResqueExecutor';
         @meta static object = {};
@@ -51,8 +51,8 @@ describe('MemoryExecutorMixin', () => {
       }
 
       @initialize
-      @mixin(Test.NS.MemoryExecutorMixin)
       @partOf(Test)
+      @mixin(Test.NS.MemoryExecutorMixin)
       class MemoryResqueExecutor extends LeanES.NS.Mediator {
         @nameBy static __filename = 'MemoryResqueExecutor';
         @meta static object = {};
@@ -60,7 +60,7 @@ describe('MemoryExecutorMixin', () => {
       const executor = MemoryResqueExecutor.new();
       executor.setName(executorName);
       executor.setViewComponent(viewComponent);
-      assert.deepEqual(executor.listNotificationInterests(), [LeanES.NS.JOB_RESULT, LeanES.NS.START_RESQUE]);
+      assert.deepEqual(executor.listNotificationInterests(), [Test.NS.DELAYED_JOB_RESULT, Test.NS.START_RESQUE]);
     });
   });
   describe('.stop', () => {
@@ -79,8 +79,8 @@ describe('MemoryExecutorMixin', () => {
       }
 
       @initialize
-      @mixin(Test.NS.MemoryExecutorMixin)
       @partOf(Test)
+      @mixin(Test.NS.MemoryExecutorMixin)
       class MemoryResqueExecutor extends LeanES.NS.Mediator {
         @nameBy static __filename = 'MemoryResqueExecutor';
         @meta static object = {};
@@ -108,8 +108,8 @@ describe('MemoryExecutorMixin', () => {
       }
 
       @initialize
-      @mixin(Test.NS.MemoryExecutorMixin)
       @partOf(Test)
+      @mixin(Test.NS.MemoryExecutorMixin)
       class MemoryResqueExecutor extends LeanES.NS.Mediator {
         @nameBy static __filename = 'MemoryResqueExecutor';
         @meta static object = {};
@@ -194,8 +194,8 @@ describe('MemoryExecutorMixin', () => {
       }
 
       @initialize
-      @mixin(Test.NS.MemoryExecutorMixin)
       @partOf(Test)
+      @mixin(Test.NS.MemoryExecutorMixin)
       class MemoryResqueExecutor extends LeanES.NS.Mediator {
         @nameBy static __filename = 'MemoryResqueExecutor';
         @meta static object = {};
@@ -249,7 +249,6 @@ describe('MemoryExecutorMixin', () => {
     });
     it('should define processors', async () => {
       const KEY = 'TEST_MEMORY_RESQUE_EXECUTOR_001';
-      facade = LeanES.NS.Facade.getInstance(KEY);
 
       @initialize
       @plugin(DelayableAddon)
@@ -260,8 +259,17 @@ describe('MemoryExecutorMixin', () => {
       }
 
       @initialize
-      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
+      class ApplicationFacade extends Test.NS.Facade {
+        @nameBy static  __filename = 'ApplicationFacade';
+        @meta static object = {};
+      }
+
+      facade = ApplicationFacade.getInstance('Test');
+
+      @initialize
+      @partOf(Test)
+      @mixin(Test.NS.MemoryResqueMixin)
       class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResque';
         @meta static object = {};
@@ -303,7 +311,6 @@ describe('MemoryExecutorMixin', () => {
     });
     it('should redefine processors', async () => {
       const KEY = 'TEST_MEMORY_RESQUE_EXECUTOR_009';
-      facade = LeanES.NS.Facade.getInstance(KEY);
 
       @initialize
       @plugin(DelayableAddon)
@@ -314,22 +321,31 @@ describe('MemoryExecutorMixin', () => {
       }
 
       @initialize
-      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
+      class ApplicationFacade extends Test.NS.Facade {
+        @nameBy static  __filename = 'ApplicationFacade';
+        @meta static object = {};
+      }
+
+      facade = ApplicationFacade.getInstance('Test');
+
+      @initialize
+      @partOf(Test)
+      @mixin(Test.NS.MemoryResqueMixin)
       class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResque';
         @meta static object = {};
       }
 
       @initialize
-      @mixin(Test.NS.MemoryExecutorMixin)
       @partOf(Test)
+      @mixin(Test.NS.MemoryExecutorMixin)
       class MemoryResqueExecutor extends LeanES.NS.Mediator {
         @nameBy static __filename = 'MemoryResqueExecutor';
         @meta static object = {};
       }
       const resque = TestResque.new();
-      resque.setName(LeanES.NS.RESQUE);
+      resque.setName(Test.NS.RESQUE);
       facade.registerProxy(resque);
       resque.create('TEST_QUEUE_1', 4);
       resque.create('TEST_QUEUE_2', 4);
@@ -361,7 +377,6 @@ describe('MemoryExecutorMixin', () => {
     });
     it('should setup executor on register', async () => {
       const KEY = 'TEST_MEMORY_RESQUE_EXECUTOR_002';
-      facade = LeanES.NS.Facade.getInstance(KEY);
       const trigger = new EventEmitter();
 
       @initialize
@@ -373,16 +388,25 @@ describe('MemoryExecutorMixin', () => {
       }
 
       @initialize
-      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
+      class ApplicationFacade extends Test.NS.Facade {
+        @nameBy static  __filename = 'ApplicationFacade';
+        @meta static object = {};
+      }
+
+      facade = ApplicationFacade.getInstance('Test');
+
+      @initialize
+      @partOf(Test)
+      @mixin(Test.NS.MemoryResqueMixin)
       class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResque';
         @meta static object = {};
       }
 
       @initialize
-      @mixin(Test.NS.MemoryExecutorMixin)
       @partOf(Test)
+      @mixin(Test.NS.MemoryExecutorMixin)
       class MemoryResqueExecutor extends LeanES.NS.Mediator {
         @nameBy static __filename = 'MemoryResqueExecutor';
         @meta static object = {};
@@ -392,7 +416,7 @@ describe('MemoryExecutorMixin', () => {
         }
       }
       const resque = TestResque.new();
-      resque.setName(LeanES.NS.RESQUE);
+      resque.setName(Test.NS.RESQUE);
       facade.registerProxy(resque);
       resque.create('TEST_QUEUE_1', 4);
       resque.create('TEST_QUEUE_2', 4);
@@ -403,6 +427,7 @@ describe('MemoryExecutorMixin', () => {
       const executor = MemoryResqueExecutor.new();
       executor.setName(executorName);
       executor.setViewComponent(viewComponent);
+      executor._resque = resque;
       const promise = new Promise((resolve) => {
         trigger.once('PROCESSORS_DEFINED', resolve);
       });
@@ -419,7 +444,6 @@ describe('MemoryExecutorMixin', () => {
     });
     it('should recursively call cycle part', async () => {
       const KEY = 'TEST_MEMORY_RESQUE_EXECUTOR_004';
-      facade = LeanES.NS.Facade.getInstance(KEY);
       const trigger = new EventEmitter();
       let test = null;
 
@@ -432,16 +456,25 @@ describe('MemoryExecutorMixin', () => {
       }
 
       @initialize
-      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
+      class ApplicationFacade extends Test.NS.Facade {
+        @nameBy static  __filename = 'ApplicationFacade';
+        @meta static object = {};
+      }
+
+      facade = ApplicationFacade.getInstance('Test');
+
+      @initialize
+      @partOf(Test)
+      @mixin(Test.NS.MemoryResqueMixin)
       class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResque';
         @meta static object = {};
       }
 
       @initialize
-      @mixin(Test.NS.MemoryExecutorMixin)
       @partOf(Test)
+      @mixin(Test.NS.MemoryExecutorMixin)
       class MemoryResqueExecutor extends LeanES.NS.Mediator {
         @nameBy static __filename = 'MemoryResqueExecutor';
         @meta static object = {};
@@ -455,10 +488,11 @@ describe('MemoryExecutorMixin', () => {
         }
       }
       const resque = TestResque.new();
-      resque.setName(LeanES.NS.RESQUE);
+      resque.setName(Test.NS.RESQUE);
       facade.registerProxy(resque);
-      resque.create(LeanES.NS.DELAYED_JOBS_QUEUE, 4);
-      const executor = MemoryResqueExecutor.new(LeanES.NS.RESQUE_EXECUTOR);
+      resque.create(Test.NS.DELAYED_JOBS_QUEUE, 4);
+      const executor = MemoryResqueExecutor.new(Test.NS.RESQUE_EXECUTOR);
+      executor._resque = resque;
       let promise = new Promise((resolve) => {
         trigger.once('PROCESSORS_DEFINED', resolve);
       });
@@ -480,7 +514,6 @@ describe('MemoryExecutorMixin', () => {
     });
     it('should call recursion', async () => {
       const KEY = 'TEST_MEMORY_RESQUE_EXECUTOR_005';
-      facade = LeanES.NS.Facade.getInstance(KEY);
       const trigger = new EventEmitter();
       let test = null;
 
@@ -493,16 +526,25 @@ describe('MemoryExecutorMixin', () => {
       }
 
       @initialize
-      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
+      class ApplicationFacade extends Test.NS.Facade {
+        @nameBy static  __filename = 'ApplicationFacade';
+        @meta static object = {};
+      }
+
+      facade = ApplicationFacade.getInstance('Test');
+
+      @initialize
+      @partOf(Test)
+      @mixin(Test.NS.MemoryResqueMixin)
       class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResque';
         @meta static object = {};
       }
 
       @initialize
-      @mixin(Test.NS.MemoryExecutorMixin)
       @partOf(Test)
+      @mixin(Test.NS.MemoryExecutorMixin)
       class MemoryResqueExecutor extends LeanES.NS.Mediator {
         @nameBy static __filename = 'MemoryResqueExecutor';
         @meta static object = {};
@@ -516,10 +558,11 @@ describe('MemoryExecutorMixin', () => {
         }
       }
       const resque = TestResque.new();
-      resque.setName(LeanES.NS.RESQUE);
+      resque.setName(Test.NS.RESQUE);
       facade.registerProxy(resque);
-      resque.create(LeanES.NS.DELAYED_JOBS_QUEUE, 4);
-      const executor = MemoryResqueExecutor.new(LeanES.NS.RESQUE_EXECUTOR);
+      resque.create(Test.NS.DELAYED_JOBS_QUEUE, 4);
+      const executor = MemoryResqueExecutor.new(Test.NS.RESQUE_EXECUTOR);
+      executor._resque = resque;
       let promise = new Promise((resolve) => {
         trigger.once('PROCESSORS_DEFINED', resolve);
       });
@@ -540,7 +583,6 @@ describe('MemoryExecutorMixin', () => {
     });
     it('should start resque', async () => {
       const KEY = 'TEST_MEMORY_RESQUE_EXECUTOR_006';
-      facade = LeanES.NS.Facade.getInstance(KEY);
       const trigger = new EventEmitter();
       let test = null;
 
@@ -553,16 +595,25 @@ describe('MemoryExecutorMixin', () => {
       }
 
       @initialize
-      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
+      class ApplicationFacade extends Test.NS.Facade {
+        @nameBy static  __filename = 'ApplicationFacade';
+        @meta static object = {};
+      }
+
+      facade = ApplicationFacade.getInstance('Test');
+
+      @initialize
+      @partOf(Test)
+      @mixin(Test.NS.MemoryResqueMixin)
       class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResque';
         @meta static object = {};
       }
 
       @initialize
-      @mixin(Test.NS.MemoryExecutorMixin)
       @partOf(Test)
+      @mixin(Test.NS.MemoryExecutorMixin)
       class MemoryResqueExecutor extends LeanES.NS.Mediator {
         @nameBy static __filename = 'MemoryResqueExecutor';
         @meta static object = {};
@@ -572,22 +623,22 @@ describe('MemoryExecutorMixin', () => {
         }
       }
       const resque = TestResque.new();
-      resque.setName(LeanES.NS.RESQUE);
+      resque.setName(Test.NS.RESQUE);
       facade.registerProxy(resque);
-      resque.create(LeanES.NS.DELAYED_JOBS_QUEUE, 4);
+      resque.create(Test.NS.DELAYED_JOBS_QUEUE, 4);
       const executor = MemoryResqueExecutor.new();
-      executor.setName(LeanES.NS.RESQUE_EXECUTOR);
+      executor._resque = resque;
+      executor.setName(Test.NS.RESQUE_EXECUTOR);
       facade.registerMediator(executor);
       const promise = new Promise(function (resolve) {
         trigger.once('CYCLE_PART', resolve);
       });
-      facade.sendNotification(LeanES.NS.START_RESQUE);
+      facade.sendNotification(Test.NS.START_RESQUE);
       await promise;
       assert.isNotNull(test);
     });
     it('should get result', async () => {
       const KEY = 'TEST_MEMORY_RESQUE_EXECUTOR_007';
-      facade = LeanES.NS.Facade.getInstance(KEY);
 
       @initialize
       @plugin(DelayableAddon)
@@ -598,26 +649,36 @@ describe('MemoryExecutorMixin', () => {
       }
 
       @initialize
-      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
+      class ApplicationFacade extends Test.NS.Facade {
+        @nameBy static  __filename = 'ApplicationFacade';
+        @meta static object = {};
+      }
+
+      facade = ApplicationFacade.getInstance('Test');
+
+      @initialize
+      @partOf(Test)
+      @mixin(Test.NS.MemoryResqueMixin)
       class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResque';
         @meta static object = {};
       }
 
       @initialize
-      @mixin(Test.NS.MemoryExecutorMixin)
       @partOf(Test)
+      @mixin(Test.NS.MemoryExecutorMixin)
       class MemoryResqueExecutor extends LeanES.NS.Mediator {
         @nameBy static __filename = 'MemoryResqueExecutor';
         @meta static object = {};
       }
       const resque = TestResque.new();
-      resque.setName(LeanES.NS.RESQUE);
+      resque.setName(Test.NS.RESQUE);
       facade.registerProxy(resque);
-      resque.create(LeanES.NS.DELAYED_JOBS_QUEUE, 4);
+      resque.create(Test.NS.DELAYED_JOBS_QUEUE, 4);
       const executor = MemoryResqueExecutor.new();
-      executor.setName(LeanES.NS.RESQUE_EXECUTOR);
+      executor._resque = resque;
+      executor.setName(Test.NS.RESQUE_EXECUTOR);
       facade.registerMediator(executor);
       const type = 'TEST_TYPE';
       const promise = new Promise((resolve) => {
@@ -626,7 +687,7 @@ describe('MemoryExecutorMixin', () => {
       const body = {
         test: 'test'
       };
-      facade.sendNotification(LeanES.NS.JOB_RESULT, body, type);
+      facade.sendNotification(Test.NS.DELAYED_JOB_RESULT, body, type);
       const data = await promise;
       assert.deepEqual(data, body);
     });
@@ -638,7 +699,6 @@ describe('MemoryExecutorMixin', () => {
     });
     it('should start cycle part', async () => {
       const KEY = 'TEST_MEMORY_RESQUE_EXECUTOR_008';
-      facade = LeanES.NS.Facade.getInstance(KEY);
       const trigger = new EventEmitter();
 
       @initialize
@@ -650,16 +710,25 @@ describe('MemoryExecutorMixin', () => {
       }
 
       @initialize
-      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
+      class ApplicationFacade extends Test.NS.Facade {
+        @nameBy static  __filename = 'ApplicationFacade';
+        @meta static object = {};
+      }
+
+      facade = ApplicationFacade.getInstance('Test');
+
+      @initialize
+      @partOf(Test)
+      @mixin(Test.NS.MemoryResqueMixin)
       class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResque';
         @meta static object = {};
       }
 
       @initialize
-      @mixin(Test.NS.MemoryExecutorMixin)
       @partOf(Test)
+      @mixin(Test.NS.MemoryExecutorMixin)
       class MemoryResqueExecutor extends LeanES.NS.Mediator {
         @nameBy static __filename = 'MemoryResqueExecutor';
         @meta static object = {};
@@ -677,12 +746,13 @@ describe('MemoryExecutorMixin', () => {
       }
       facade.registerCommand('TEST_SCRIPT', TestScript);
       const resque = TestResque.new();
-      resque.setName(LeanES.NS.RESQUE);
+      resque.setName(Test.NS.RESQUE);
       facade.registerProxy(resque);
-      await resque.create(LeanES.NS.DELAYED_JOBS_QUEUE, 4);
-      const queue = await resque.get(LeanES.NS.DELAYED_JOBS_QUEUE);
+      await resque.create(Test.NS.DELAYED_JOBS_QUEUE, 4);
+      const queue = await resque.get(Test.NS.DELAYED_JOBS_QUEUE);
       const executor = MemoryResqueExecutor.new();
-      executor.setName(LeanES.NS.RESQUE_EXECUTOR);
+      executor._resque = resque;
+      executor.setName(Test.NS.RESQUE_EXECUTOR);
       facade.registerMediator(executor);
       const promise = new Promise((resolve) => {
         trigger.once('CYCLE_PART', resolve);
@@ -694,7 +764,7 @@ describe('MemoryExecutorMixin', () => {
         arg3: 'ARG_3'
       };
       await queue.push('TEST_SCRIPT', body, DELAY_UNTIL);
-      facade.sendNotification(LeanES.NS.START_RESQUE);
+      facade.sendNotification(Test.NS.START_RESQUE);
       const data = await promise;
       assert.deepEqual(data, body);
     });
@@ -706,7 +776,6 @@ describe('MemoryExecutorMixin', () => {
     });
     it('should get full queue name', async () => {
       const KEY = 'TEST_MEMORY_RESQUE_EXECUTOR_010';
-      facade = LeanES.NS.Facade.getInstance(KEY);
 
       @initialize
       @plugin(DelayableAddon)
@@ -717,23 +786,32 @@ describe('MemoryExecutorMixin', () => {
       }
 
       @initialize
-      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
+      class ApplicationFacade extends Test.NS.Facade {
+        @nameBy static  __filename = 'ApplicationFacade';
+        @meta static object = {};
+      }
+
+      facade = ApplicationFacade.getInstance('Test');
+
+      @initialize
+      @partOf(Test)
+      @mixin(Test.NS.MemoryResqueMixin)
       class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResque';
         @meta static object = {};
       }
 
       @initialize
-      @mixin(Test.NS.MemoryExecutorMixin)
       @partOf(Test)
+      @mixin(Test.NS.MemoryExecutorMixin)
       class MemoryResqueExecutor extends LeanES.NS.Mediator {
         @nameBy static __filename = 'MemoryResqueExecutor';
         @meta static object = {};
       }
 
       const resque = TestResque.new();
-      resque.setName(LeanES.NS.RESQUE);
+      resque.setName(Test.NS.RESQUE);
       facade.registerProxy(resque);
       resque.create('TEST_QUEUE_1', 4);
       resque.create('TEST_QUEUE_2', 4);
@@ -742,6 +820,7 @@ describe('MemoryExecutorMixin', () => {
         id: 'view-component'
       };
       const executor = MemoryResqueExecutor.new();
+      executor._resque = resque;
       executor.setName(executorName);
       executor.setViewComponent(viewComponent);
       facade.registerMediator(executor);
