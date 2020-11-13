@@ -14,7 +14,7 @@
 // along with leanes-delayable-addon.  If not, see <https://www.gnu.org/licenses/>.
 
 import type { DelayableInterface } from '../interfaces/DelayableInterface';
-import type { RecoverableStaticInterface } from '@leansdk/leanes/src';
+import type { RecoverableStaticInterface } from '../interfaces/RecoverableStaticInterface';
 
 export default (Module) => {
   const {
@@ -60,7 +60,7 @@ export default (Module) => {
               throw new Error(`Method \`${_.isSymbol(name) ? Symbol.keyFor(name) : name}\` absent in class ${target.name}`);
             }
             const Proto = target.constructor;
-            (Proto: Class<{replicateObject: $PropertyType<RecoverableStaticInterface<target.Module, Proto>, 'replicateObject'>}>);
+            (Proto: Class<{replicateObject: $PropertyType<RecoverableStaticInterface<Proto>, 'replicateObject'>}>);
             const options = opts || {};
             return async (...args) => {
               const data = {
@@ -86,7 +86,7 @@ export default (Module) => {
               throw new Error(`Method \`${_.isSymbol(name) ? Symbol.keyFor(name) : name}\` absent in class ${target.name}.prototype`);
             }
             vcClass = target.constructor;
-            (vcClass: Class<{replicateObject: $PropertyType<RecoverableStaticInterface<target.Module, vcClass>, 'replicateObject'>}>);
+            (vcClass: Class<{replicateObject: $PropertyType<RecoverableStaticInterface<vcClass>, 'replicateObject'>}>);
             const options = opts || {};
             return async (...args) => {
               const data = {

@@ -17,7 +17,7 @@ const hasProp = {}.hasOwnProperty;
 
 import EventEmitter from 'events';
 import type { ResqueInterface } from '../interfaces/ResqueInterface';
-import type { NotificationInterface } from '@leansdk/leanes/src';
+import type { NotificationInterface } from '../interfaces/NotificationInterface';
 
 export default (Module) => {
   const {

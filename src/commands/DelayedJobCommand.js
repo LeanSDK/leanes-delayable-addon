@@ -13,7 +13,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with leanes-delayable-addon.  If not, see <https://www.gnu.org/licenses/>.
 
-import type { RecoverableStaticInterface, NotificationInterface } from '@leansdk/leanes/src';
+import type { NotificationInterface } from '../interfaces/NotificationInterface';
+import type { RecoverableStaticInterface } from '../interfaces/RecoverableStaticInterface';
 
 export default (Module) => {
   const {
@@ -40,13 +41,13 @@ export default (Module) => {
 
       switch (replica.type) {
         case 'class':
-          (Proto: Class<{restoreObject: $PropertyType<RecoverableStaticInterface<ApplicationModule, Proto>, 'restoreObject'>}>);
+          (Proto: Class<{restoreObject: $PropertyType<RecoverableStaticInterface<Proto>, 'restoreObject'>}>);
           replicated = await Proto.restoreObject(ApplicationModule, replica);
           await replicated[methodName](...args);
           break;
         case 'instance':
           const vcInstanceClass = ApplicationModule.NS[replica.class];
-          (vcInstanceClass: Class<{restoreObject: $PropertyType<RecoverableStaticInterface<ApplicationModule, vcInstanceClass>, 'restoreObject'>}>);
+          (vcInstanceClass: Class<{restoreObject: $PropertyType<RecoverableStaticInterface<vcInstanceClass>, 'restoreObject'>}>);
           replicated = await vcInstanceClass.restoreObject(ApplicationModule, replica);
           await replicated[methodName](...args);
           break;
