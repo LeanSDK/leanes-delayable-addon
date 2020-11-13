@@ -2,7 +2,7 @@ const { expect, assert } = require('chai');
 const _ = require('lodash');
 const EventEmitter = require('events');
 const DelayableAddon = require("../../src/index.js").default;
-const LeanES = require('@leansdk/leanes/src/leanes').default;
+const LeanES = require('@leansdk/leanes/src').default;
 const {
   initialize, partOf, nameBy, meta, constant, method, plugin
 } = LeanES.NS;

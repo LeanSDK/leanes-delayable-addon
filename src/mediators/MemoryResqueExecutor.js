@@ -20,7 +20,6 @@ export default (Module) => {
     initialize, partOf, meta, nameBy, mixin,
   } = Module.NS;
 
-
   @initialize
   @mixin(MemoryExecutorMixin)
   @partOf(Module)

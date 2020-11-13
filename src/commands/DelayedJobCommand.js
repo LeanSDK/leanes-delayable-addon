@@ -13,15 +13,12 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with leanes-delayable-addon.  If not, see <https://www.gnu.org/licenses/>.
 
-// import type { RecoverableStaticInterface } from '@leansdk/leanes/src/leanes/es';
-// import type { NotificationInterface } from '@leansdk/leanes/src/leanes';
-import type { RecoverableStaticInterface, NotificationInterface } from '@leansdk/leanes/src/leanes';
+import type { RecoverableStaticInterface, NotificationInterface } from '@leansdk/leanes/src';
 
 export default (Module) => {
   const {
     DELAYED_JOB_RESULT,
-    Proto,
-    Command,
+    Proto, Command, Notification,
     assert,
     initialize, partOf, meta, method, nameBy
   } = Module.NS;
@@ -32,22 +29,24 @@ export default (Module) => {
     @nameBy static  __filename = __filename;
     @meta static object = {};
 
-    @method async body(aoData: {moduleName: string, replica: object, methodName: string, args: Array}): void {
+    @method async body<
+      T = {moduleName: string, replica: {type: string, class: string}, methodName: string, args: Array}
+    >(aoData: T): Promise<void> {
       let replicated;
       const { moduleName, replica, methodName, args } = aoData;
       replica.multitonKey = this._multitonKey;
       const ApplicationModule = this.ApplicationModule;
-
       assert(moduleName === ApplicationModule.name, `Job was defined with moduleName = \`${moduleName}\`, but its Module = \`${ApplicationModule.name}\``);
 
       switch (replica.type) {
         case 'class':
+          (Proto: Class<{restoreObject: $PropertyType<RecoverableStaticInterface<ApplicationModule, Proto>, 'restoreObject'>}>);
           replicated = await Proto.restoreObject(ApplicationModule, replica);
           await replicated[methodName](...args);
           break;
         case 'instance':
           const vcInstanceClass = ApplicationModule.NS[replica.class];
-          (vcInstanceClass: Class<{restoreObject: $ElementType<RecoverableStaticInterface<Module, vcInstanceClass>, 'restoreObject'>}>);
+          (vcInstanceClass: Class<{restoreObject: $PropertyType<RecoverableStaticInterface<ApplicationModule, vcInstanceClass>, 'restoreObject'>}>);
           replicated = await vcInstanceClass.restoreObject(ApplicationModule, replica);
           await replicated[methodName](...args);
           break;
@@ -56,7 +55,9 @@ export default (Module) => {
       }
     }
 
-    @method async execute(aoNotification: NotificationInterface): Promise<void> {
+    @method async execute<
+      T: {moduleName: string, replica: {type: string, class: string}, methodName: string, args: Array}
+    >(aoNotification: NotificationInterface<T>): Promise<void> {
       const voBody = aoNotification.getBody();
       const reverse = aoNotification.getType();
       let voResult = null;

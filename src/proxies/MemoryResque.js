@@ -20,10 +20,9 @@ export default (Module) => {
     initialize, partOf, meta, nameBy, mixin,
   } = Module.NS;
 
-
   @initialize
-  @mixin(MemoryResqueMixin)
   @partOf(Module)
+  @mixin(MemoryResqueMixin)
   class MemoryResque extends Resque {
     @nameBy static  __filename = __filename;
     @meta static object = {};

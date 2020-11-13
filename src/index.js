@@ -13,6 +13,21 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with leanes-delayable-addon.  If not, see <https://www.gnu.org/licenses/>.
 
+import QueueTF from './queue/Queue';
+import ResqueTF from './proxies/Resque';
+import DelayedJobCommandTF from './commands/DelayedJobCommand';
+import ResqueExecutorTF from './mediators/ResqueExecutor';
+
+import DelayableMixinTF from './mixins/DelayableMixin';
+import SaveDelayedJobsMixinTF from './mixins/SaveDelayedJobsMixin';
+import MemoryResqueMixinTF from './mixins/MemoryResqueMixin';
+import MemoryExecutorMixinTF from './mixins/MemoryExecutorMixin';
+
+import MemoryResqueTF from './proxies/MemoryResque';
+import MemoryResqueExecutorTF from './mediators/MemoryResqueExecutor';
+
+import FacadePatchTF from './patches/FacadePatch';
+
 export type { QueueInterface } from './interfaces/QueueInterface';
 export type { ResqueInterface } from './interfaces/ResqueInterface';
 export type { DelayableInterface } from './interfaces/DelayableInterface';
@@ -40,20 +55,20 @@ export default (Module) => {
         patch(this.NS.FacadePatch)(this.NS.Facade);
       }
     }
-    require('./queue/Queue').default(Mixin);
-    require('./proxies/Resque').default(Mixin);
-    require('./commands/DelayedJobCommand').default(Mixin);
-    require('./mediators/ResqueExecutor').default(Mixin);
+    QueueTF(Mixin);
+    ResqueTF(Mixin);
+    DelayedJobCommandTF(Mixin);
+    ResqueExecutorTF(Mixin);
 
-    require('./mixins/DelayableMixin').default(Mixin);
-    require('./mixins/SaveDelayedJobsMixin').default(Mixin);
-    require('./mixins/MemoryResqueMixin').default(Mixin);
-    require('./mixins/MemoryExecutorMixin').default(Mixin);
+    DelayableMixinTF(Mixin);
+    SaveDelayedJobsMixinTF(Mixin);
+    MemoryResqueMixinTF(Mixin);
+    MemoryExecutorMixinTF(Mixin);
 
-    require('./proxies/MemoryResque').default(Mixin);
-    require('./mediators/MemoryResqueExecutor').default(Mixin);
+    MemoryResqueTF(Mixin);
+    MemoryResqueExecutorTF(Mixin);
 
-    require('./patches/FacadePatch').default(Mixin);
+    FacadePatchTF(Mixin);
 
     return Mixin;
   }]

@@ -16,9 +16,9 @@ const extensions = [".ts", ".js"];
 // Compile JS through rollup
 let js = new Rollup(appRoot, {
   inputFiles: ["**/*.js"],
-  annotation: "JS Transformation",
+  annotation: "leanes-delayable-addon",
   rollup: {
-    input: __dirname + "/src/leanes/index.js",
+    input: __dirname + "/src/index.js",
     external: [
       'crypto',
       'net',
@@ -59,7 +59,7 @@ let js = new Rollup(appRoot, {
         ],
         plugins: [
           "@babel/plugin-syntax-flow",
-          "flow-runtime",
+          // "flow-runtime",
           "@babel/plugin-transform-flow-strip-types",
           ["@babel/plugin-proposal-decorators", { "legacy": true }],
           ["@babel/plugin-proposal-class-properties", { "loose": true }],
@@ -75,11 +75,11 @@ let js = new Rollup(appRoot, {
         dirname: true,
         filename: true,
         global: false,
-        baseDir: process.cwd() + "/src/leanes/"
+        baseDir: process.cwd() + "/src/"
       }),
     ],
     output: {
-      name: "LeanES",
+      name: "leanes-delayable-addon",
       dir: __dirname + '/lib',
       format: "cjs",
       sourcemap: true,

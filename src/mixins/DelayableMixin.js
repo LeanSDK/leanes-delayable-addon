@@ -14,13 +14,14 @@
 // along with leanes-delayable-addon.  If not, see <https://www.gnu.org/licenses/>.
 
 import type { DelayableInterface } from '../interfaces/DelayableInterface';
-import type { RecoverableStaticInterface } from '@leansdk/leanes/src/leanes';
+import type { RecoverableStaticInterface } from '@leansdk/leanes/src';
 
 export default (Module) => {
   const {
     RESQUE, DELAYED_JOBS_QUEUE, DELAYED_JOB_COMMAND,
     CoreObject,
-    initializeMixin, meta, method
+    initializeMixin, meta, method,
+    Utils: { _ }
   } = Module.NS;
 
   Module.defineMixin(__filename, (BaseClass) => {
@@ -28,17 +29,16 @@ export default (Module) => {
     class Mixin extends BaseClass implements DelayableInterface {
       @meta static object = {};
 
-      // cpmDelayJob = PointerT(_Class.private(_Class.static(_Class.async({
       @method static async _delayJob(
-        target,//: CoreObject | Class<CoreObject>,
+        target,
         data: {|
           moduleName: string,
-          replica: object,
+          replica: {type: string, class: string},
           methodName: string,
-          args: array,
-          opts: {/*queue: ?string, delayUntil: ?number*/}
+          args: Array,
+          opts: {queue: ?string, delayUntil: ?number}
         |},
-        options//: {queue: ?string, delayUntil: ?number}
+        options: {queue: ?string, delayUntil: ?number}
       ) {
         const queueName = options.queue;
         const {
@@ -50,51 +50,53 @@ export default (Module) => {
         await queue.delay(DELAYED_JOB_COMMAND, data, options.delayUntil);
       }
 
-      @method static delay(opts/*: ?{queue: ?string, delayUntil: ?number} = {}*/): object {
+      @method static delay(opts: ?{queue: ?string, delayUntil: ?number}) {
         return new Proxy(this, {
           get: function(target, name, receiver) {
             if (name === 'delay') {
               throw new Error('Method `delay` can not been delayed');
             }
             if (!(name in target) || typeof target[name] !== "function") {
-              throw new Error(`Method \`${name}\` absent in class ${target.name}`);
+              throw new Error(`Method \`${_.isSymbol(name) ? Symbol.keyFor(name) : name}\` absent in class ${target.name}`);
             }
             const Proto = target.constructor;
-            (Proto: Class<{replicateObject: $ElementType<RecoverableStaticInterface<Module, vcInstanceClass>, 'replicateObject'>}>);
+            (Proto: Class<{replicateObject: $PropertyType<RecoverableStaticInterface<target.Module, Proto>, 'replicateObject'>}>);
+            const options = opts || {};
             return async (...args) => {
               const data = {
                 moduleName: target.moduleName(),
                 replica: await Proto.replicateObject(target),
                 methodName: name,
                 args,
-                opts
+                opts: options
               };
-              return await target._delayJob(target, data, opts);
+              return await target._delayJob(target, data, options);
             };
           }
         });
       }
 
-      @method delay(opts: ?{queue: ?string, delayUntil: ?number} = {}): object {
+      @method delay(opts: ?{queue: ?string, delayUntil: ?number}) {
         return new Proxy(this, {
           get: function(target, name, receiver) {
             if (name === 'delay') {
               throw new Error('Method `delay` can not been delayed');
             }
             if (!(name in target) || typeof target[name] !== "function") {
-              throw new Error(`Method \`${name}\` absent in class ${target.name}.prototype`);
+              throw new Error(`Method \`${_.isSymbol(name) ? Symbol.keyFor(name) : name}\` absent in class ${target.name}.prototype`);
             }
             vcClass = target.constructor;
-            (vcClass: $Diff<RecoverableStaticInterface<target.Module, vcClass>, {}>);
+            (vcClass: Class<{replicateObject: $PropertyType<RecoverableStaticInterface<target.Module, vcClass>, 'replicateObject'>}>);
+            const options = opts || {};
             return async (...args) => {
               const data = {
                 moduleName: target.moduleName(),
                 replica: await vcClass.replicateObject(target),
                 methodName: name,
                 args,
-                opts
+                opts: options
               };
-              return await vcClass._delayJob(target, data, opts);
+              return await vcClass._delayJob(target, data, options);
             };
           }
         });

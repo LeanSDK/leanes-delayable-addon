@@ -42,7 +42,7 @@ export default (Module) => {
       return await this.resque.pushJob(this.name, scriptName, data, delayUntil);
     }
 
-    @method async get(jobId: string | number): ?object {
+    @method async get<T = ?object>(jobId: string | number): T {
       return await this.resque.getJob(this.name, jobId);
     }
 
@@ -54,27 +54,27 @@ export default (Module) => {
       await this.resque.abortJob(this.name, jobId);
     }
 
-    @method async all(scriptName: ?string): Array<object> {
+    @method async all<T = ?object>(scriptName: ?string): Promise<Array<T>> {
       return await this.resque.allJobs(this.name, scriptName);
     }
 
-    @method async pending(scriptName: ?string): Array<object> {
+    @method async pending<T = ?object>(scriptName: ?string): Promise<Array<T>> {
       return await this.resque.pendingJobs(this.name, scriptName);
     }
 
-    @method async progress(scriptName: ?string): Array<object> {
+    @method async progress<T = ?object>(scriptName: ?string): Promise<Array<T>> {
       return await this.resque.progressJobs(this.name, scriptName);
     }
 
-    @method async completed(scriptName: ?string): Array<object> {
+    @method async completed<T = ?object>(scriptName: ?string): Promise<Array<T>> {
       return await this.resque.completedJobs(this.name, scriptName);
     }
 
-    @method async failed(scriptName: ?string): Array<object> {
+    @method async failed<T = ?object>(scriptName: ?string): Promise<Array<T>> {
       return await this.resque.failedJobs(this.name, scriptName);
     }
 
-    @method static async restoreObject(acModule: Class<Module>, replica: object): QueueInterface {
+    @method static async restoreObject(acModule: Class<*>, replica: object): QueueInterface {
       if ((replica != null ? replica.class : undefined) === this.name && (replica != null ? replica.type : undefined) === 'instance') {
         const Facade = acModule.NS.ApplicationFacade || acModule.NS.Facade;
         const facade = Facade.getInstance(replica.multitonKey);
@@ -93,7 +93,7 @@ export default (Module) => {
       return replica;
     }
 
-    constructor(aoProperties: object, aoResque: ResqueInterface) {
+    constructor(aoProperties: {|name: string, concurrency: number|}, aoResque: ResqueInterface) {
       super(... arguments);
       this.resque = aoResque;
       for (const vsAttrName in aoProperties) {

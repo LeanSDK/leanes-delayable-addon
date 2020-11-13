@@ -15,13 +15,11 @@
 
 import type { ResqueInterface } from '../interfaces/ResqueInterface';
 
-import { inject } from 'inversify';
-
 export default (Module) => {
   const {
     RESQUE, DELAYED_JOBS_QUEUE,
     CoreObject,
-    initializeMixin, meta, property, method
+    initializeMixin, meta, property, method, inject
   } = Module.NS;
 
   Module.defineMixin(__filename, (BaseClass: Class<CoreObject>) => {
@@ -29,20 +27,18 @@ export default (Module) => {
     class Mixin extends BaseClass {
       @meta static object = {};
 
-      @property _resque: ResqueInterface = null;
-
       @method async saveDelayeds(): Promise<void> {
-        for (const delayed of await this._resque.getDelayed()) {
+        for (const delayed of await this.resque.getDelayed()) {
           const { queueName, scriptName, data, delay } = delayed;
-          const queue = await resque.get(queueName || DELAYED_JOBS_QUEUE);
+          const queue = await this.resque.get(queueName || DELAYED_JOBS_QUEUE);
           await queue.push(scriptName, data, delay);
         }
       }
 
       @inject(`Factory<${RESQUE}>`)
-      @property _resqueFactory:  <T: ResqueInterface>() => {'_resqueI': $ElementType<T, '_resqueI'>};
+      @property _resqueFactory:  <T = ResqueInterface>() => {'_resqueI': $PropertyType<T, '_resqueI'>};
 
-      @property get resque <T: ResqueInterface>(): {'_resqueI': $ElementType<T, '_resqueI'>} {
+      @property get resque <T = ResqueInterface>(): {'_resqueI': $PropertyType<T, '_resqueI'>} {
         return this._resqueFactory();
       }
     }

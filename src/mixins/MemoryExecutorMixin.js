@@ -17,15 +17,13 @@ const hasProp = {}.hasOwnProperty;
 
 import EventEmitter from 'events';
 import type { ResqueInterface } from '../interfaces/ResqueInterface';
-import type { NotificationInterface } from '@leansdk/leanes/src/leanes';
-
-import { inject } from 'inversify';
+import type { NotificationInterface } from '@leansdk/leanes/src';
 
 export default (Module) => {
   const {
     DELAYED_JOB_RESULT, START_RESQUE, RESQUE, RESQUE_EXECUTOR,
     ResqueExecutor,
-    initializeMixin, meta, property, method,
+    initializeMixin, meta, property, method, inject,
     Utils: { _, genRandomAlphaNumbers }
   } = Module.NS;
 
@@ -34,168 +32,159 @@ export default (Module) => {
     class Mixin extends BaseClass {
       @meta static object = {};
 
-      // ipoTimer = PointerT(_Class.private({
-      @property _timer: ?(object | number) = null;
+      @property _timer: ?(Object | number) = null;
 
-      // ipbIsStopped = PointerT(_Class.private({
       @property _isStopped: boolean = true;
 
-      // ipoDefinedProcessors = PointerT(_Class.private({
       @property _definedProcessors: {
         [key: string]: {|
         listener: Function,
         concurrency: number
         |}
-    } = null;
+      } = null;
 
-    // ipoConcurrencyCount = PointerT(_Class.private({
-    @property _concurrencyCount: { [key: string]: number } = null;
+      @property _concurrencyCount: { [key: string]: number } = null;
 
-    // ipoResque = PointerT(_Class.private({
-    @property _resque: ResqueInterface = null;
-
-    @method fullQueueName(queueName: string): string {
-      return this._resque.fullQueueName(queueName);
-    }
-
-    @method listNotificationInterests(): string[] {
-      return [DELAYED_JOB_RESULT, START_RESQUE];
-    }
-
-    @method handleNotification(aoNotification: NotificationInterface) {
-      const vsName = aoNotification.getName();
-      const voBody = aoNotification.getBody();
-      const vsType = aoNotification.getType();
-      switch (vsName) {
-        case DELAYED_JOB_RESULT:
-          this.getViewComponent().emit(vsType, voBody);
-          break;
-        case START_RESQUE:
-          this.start();
+      @method fullQueueName(queueName: string): string {
+        return this.resque.fullQueueName(queueName);
       }
-    }
 
-    @method onRegister(...args) {
-      super.onRegister(...args);
-      this.setViewComponent(new EventEmitter());
-      this._concurrencyCount = {};
-      this._definedProcessors = {};
-      this.defineProcessors();
-    }
+      @method listNotificationInterests(): string[] {
+        return [DELAYED_JOB_RESULT, START_RESQUE];
+      }
 
-    @method async reDefineProcessors() {
-      this.stop();
-      this._definedProcessors = {};
-      await this.defineProcessors();
-    }
+      @method handleNotification<T = ?any>(aoNotification: NotificationInterface<T>) {
+        const vsName = aoNotification.getName();
+        const voBody = aoNotification.getBody();
+        const vsType = aoNotification.getType();
+        switch (vsName) {
+          case DELAYED_JOB_RESULT:
+            this.getViewComponent().emit(vsType, voBody);
+            break;
+          case START_RESQUE:
+            this.start();
+        }
+      }
 
-    @method async defineProcessors() {
-      const self = this;
-      const ref = await this._resque.allQueues();
-      for (const { name, concurrency } of ref) {
-        const fullQueueName = this._resque.fullQueueName(name);
-        // [let moduleName] = fullQueueName.split('|>');
-        //if (moduleName === this.moduleName()) {
-        this.define(name, { concurrency }, async function (job, done) {
-          const reverse = genRandomAlphaNumbers(32);
-          self.getViewComponent().once(reverse, function (aoError) {
-            return done(aoError);
+      @method onRegister(...args) {
+        super.onRegister(...args);
+        this.setViewComponent(new EventEmitter());
+        this._concurrencyCount = {};
+        this._definedProcessors = {};
+        this.defineProcessors();
+      }
+
+      @method async reDefineProcessors() {
+        this.stop();
+        this._definedProcessors = {};
+        await this.defineProcessors();
+      }
+
+      @method async defineProcessors() {
+        const ref = await this.resque.allQueues();
+        for (const { name, concurrency } of ref) {
+          const fullQueueName = this.resque.fullQueueName(name);
+          // [let moduleName] = fullQueueName.split('|>');
+          //if (moduleName === this.moduleName()) {
+          this.define(name, { concurrency }, async (job, done) => {
+            const reverse = genRandomAlphaNumbers(32);
+            this.getViewComponent().once(reverse, function (aoError) {
+              return done(aoError);
+            });
+            const { scriptName, data } = job.data;
+            this.send(scriptName, data, reverse);
           });
-          const { scriptName, data } = job.data;
-          self.send(scriptName, data, reverse);
-        });
-        //}
-        continue;
-      }
-    }
-
-    @method onRemove(...args) {
-      super.onRemove(...args);
-      this.stop();
-    }
-
-    @method async cyclePart() {
-      const ref = this._definedProcessors;
-      for (const queueName in ref) {
-        if (!hasProp.call(ref, queueName)) continue;
-        const { listener, concurrency } = ref[queueName];
-        const currentQC = this._concurrencyCount[queueName];
-        const now = Date.now();
-        const progressJobs = (await this._resque.progressJobs(queueName));
-        for (const job of progressJobs) {
-          if ((now - job.startedAt) < job.lockLifetime) {
-            job.status = 'scheduled';
-          }
+          //}
+          continue;
         }
-        const pendingJobs = (await this._resque.pendingJobs(queueName));
-        if (((currentQC != null) && currentQC < concurrency) || (currentQC == null)) {
-          for (const job of pendingJobs) {
-            if (job.delayUntil < now) {
-              listener(job);
+      }
+
+      @method onRemove(...args) {
+        super.onRemove(...args);
+        this.stop();
+      }
+
+      @method async cyclePart() {
+        const ref = this._definedProcessors;
+        for (const queueName in ref) {
+          if (!hasProp.call(ref, queueName)) continue;
+          const { listener, concurrency } = ref[queueName];
+          const currentQC = this._concurrencyCount[queueName];
+          const now = Date.now();
+          const progressJobs = (await this.resque.progressJobs(queueName));
+          for (const job of progressJobs) {
+            if ((now - job.startedAt) < job.lockLifetime) {
+              job.status = 'scheduled';
             }
-            if (currentQC >= concurrency) {
-              break;
+          }
+          const pendingJobs = (await this.resque.pendingJobs(queueName));
+          if (((currentQC != null) && currentQC < concurrency) || (currentQC == null)) {
+            for (const job of pendingJobs) {
+              if (job.delayUntil < now) {
+                listener(job);
+              }
+              if (currentQC >= concurrency) {
+                break;
+              }
             }
           }
         }
+        this.recursion();
       }
-      this.recursion();
-    }
 
-    @method async recursion() {
-      if (this._isStopped) {
-        return;
+      @method async recursion() {
+        if (this._isStopped) {
+          return;
+        }
+        this._timer = setTimeout(async () => {
+          clearTimeout(this._timer);
+          return (await this.cyclePart());
+        }, 100);
       }
-      const self = this;
-      this._timer = setTimeout(async () => {
-        clearTimeout(self._timer);
-        return (await self.cyclePart());
-      }, 100);
-    }
 
-    @method async start() {
-      this._isStopped = false;
-      await this.recursion();
-    }
-
-    @method stop() {
-      this._isStopped = true;
-      if (this._timer != null) {
-        clearTimeout(this._timer);
+      @method async start() {
+        this._isStopped = false;
+        await this.recursion();
       }
-    }
 
-    @method define(queueName: string, opts: { concurrency: number }, lambda: Function) {
-      const { concurrency } = opts;
-      const listener = (job) => {
-        let base;
-        const done = (err) => {
-          if (err != null) {
-            job.status = 'failed';
-            job.reason = err;
-          } else {
-            job.status = 'completed';
+      @method stop() {
+        this._isStopped = true;
+        if (this._timer != null) {
+          clearTimeout(this._timer);
+        }
+      }
+
+      @method define(queueName: string, opts: { concurrency: number }, lambda: Function) {
+        const { concurrency } = opts;
+        const listener = (job) => {
+          let base;
+          const done = (err) => {
+            if (err != null) {
+              job.status = 'failed';
+              job.reason = err;
+            } else {
+              job.status = 'completed';
+            }
+            this._concurrencyCount[queueName] -= 1;
+          };
+          if ((base = this._concurrencyCount)[queueName] == null) {
+            base[queueName] = 0;
           }
-          this._concurrencyCount[queueName] -= 1;
+          this._concurrencyCount[queueName] += 1;
+          job.status = 'running';
+          job.startedAt = Date.now();
+          lambda(job, done);
         };
-        if ((base = this._concurrencyCount)[queueName] == null) {
-          base[queueName] = 0;
-        }
-        this._concurrencyCount[queueName] += 1;
-        job.status = 'running';
-        job.startedAt = Date.now();
-        lambda(job, done);
-      };
-      this._definedProcessors[queueName] = { listener, concurrency };
-    }
+        this._definedProcessors[queueName] = { listener, concurrency };
+      }
 
-    @inject(`Factory<${RESQUE}>`)
-    @property _resqueFactory: <T: ResqueInterface>() => {'_resqueI': $ElementType<T, '_resqueI'>};
+      @inject(`Factory<${RESQUE}>`)
+      @property _resqueFactory: <T = ResqueInterface>() => {'_resqueI': $PropertyType<T, '_resqueI'>};
 
-    @property get resque <T: ResqueInterface>(): {'_resqueI': $ElementType<T, '_resqueI'>} {
-      return this._resqueFactory();
+      @property get resque <T = ResqueInterface>(): {'_resqueI': $PropertyType<T, '_resqueI'>} {
+        return this._resqueFactory();
+      }
     }
-  }
-  return Mixin;
+    return Mixin;
   });
 }

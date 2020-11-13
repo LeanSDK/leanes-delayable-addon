@@ -20,7 +20,6 @@ export default (Module) => {
   const {
     DELAYED_JOBS_QUEUE,
     Proxy,
-    ConfigurableMixin,
     assert,
     initialize, partOf, meta, property, method, nameBy, mixin,
     Utils: { uuid }
@@ -28,7 +27,6 @@ export default (Module) => {
 
   @initialize
   @partOf(Module)
-  @mixin(ConfigurableMixin)
   class Resque extends Proxy implements ResqueInterface {
     @nameBy static  __filename = __filename;
     @meta static object = {};
@@ -45,7 +43,7 @@ export default (Module) => {
 
     @method fullQueueName(queueName: string): string {
       if (!/\|\>/.test(queueName)) {
-        const [moduleName] = this.moduleName().split('|>');
+        const [moduleName] = this.ApplicationModule.name.split('|>');
         queueName = `${moduleName}|>${queueName}`;
       }
       return queueName;
@@ -146,10 +144,10 @@ export default (Module) => {
       return assert.fail('Not implemented specific method');
     }
 
-    @method async getJob(
+    @method async getJob<T = ?object>(
       queueName: string,
       jobId: string | number
-    ): Promise<?object> {
+    ): Promise<T> {
       return assert.fail('Not implemented specific method');
     }
 
@@ -167,38 +165,38 @@ export default (Module) => {
       return assert.fail('Not implemented specific method');
     }
 
-    @method async allJobs(
+    @method async allJobs<T = ?object>(
       queueName: string,
       scriptName: ?string
-    ): Promise<object[]> {
+    ): Promise<Array<T>> {
       return assert.fail('Not implemented specific method');
     }
 
-    @method async pendingJobs(
+    @method async pendingJobs<T = ?object>(
       queueName: string,
       scriptName: ?string
-    ): Promise<object[]> {
+    ): Promise<Array<T>> {
       return assert.fail('Not implemented specific method');
     }
 
-    @method async progressJobs(
+    @method async progressJobs<T = ?object>(
       queueName: string,
       scriptName: ?string
-    ): Promise<object[]> {
+    ): Promise<Array<T>> {
       return assert.fail('Not implemented specific method');
     }
 
-    @method async completedJobs(
+    @method async completedJobs<T = ?object>(
       queueName: string,
       scriptName: ?string
-    ): Promise<object[]> {
+    ): Promise<Array<T>> {
       return assert.fail('Not implemented specific method');
     }
 
-    @method async failedJobs(
+    @method async failedJobs<T = ?object>(
       queueName: string,
       scriptName: ?string
-    ): Promise<object[]> {
+    ): Promise<Array<T>> {
       return assert.fail('Not implemented specific method');
     }
 

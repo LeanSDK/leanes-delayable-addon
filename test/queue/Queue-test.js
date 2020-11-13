@@ -2,7 +2,7 @@ const { expect, assert } = require('chai');
 const sinon = require('sinon');
 const _ = require('lodash');
 const DelayableAddon = require("../../src/index.js").default;
-const LeanES = require('@leansdk/leanes/src/leanes').default;
+const LeanES = require('@leansdk/leanes/src').default;
 const {
   initialize, partOf, nameBy, meta, constant, method, attribute, mixin, resolver, plugin
 } = LeanES.NS;
@@ -20,7 +20,7 @@ describe('Queue', () => {
       }
 
       @initialize
-      @mixin(Test.NS.MemoryResqueMixin)
+      // @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
       class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResque';
@@ -63,7 +63,7 @@ describe('Queue', () => {
       }
 
       @initialize
-      @mixin(Test.NS.MemoryResqueMixin)
+      // @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
       class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResque';
@@ -115,7 +115,7 @@ describe('Queue', () => {
       }
 
       @initialize
-      @mixin(Test.NS.MemoryResqueMixin)
+      // @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
       class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResque';
@@ -164,7 +164,7 @@ describe('Queue', () => {
       }
 
       @initialize
-      @mixin(Test.NS.MemoryResqueMixin)
+      // @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
       class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResque';
@@ -213,7 +213,7 @@ describe('Queue', () => {
       }
 
       @initialize
-      @mixin(Test.NS.MemoryResqueMixin)
+      // @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
       class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResque';
@@ -261,12 +261,12 @@ describe('Queue', () => {
       }
 
       @initialize
-      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
+      // @mixin(Test.NS.MemoryResqueMixin)
       class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResque';
         @meta static object = {};
-        @method allJobs(... args) {
+        @method async allJobs(... args) {
           return spyMethod(... args);
         }
       }
@@ -310,12 +310,12 @@ describe('Queue', () => {
       }
 
       @initialize
-      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
+      // @mixin(Test.NS.MemoryResqueMixin)
       class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResque';
         @meta static object = {};
-        @method pendingJobs(... args) {
+        @method async pendingJobs(... args) {
           return spyMethod(... args);
         }
       }
@@ -359,12 +359,12 @@ describe('Queue', () => {
       }
 
       @initialize
-      @mixin(Test.NS.MemoryResqueMixin)
+      // @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
       class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResque';
         @meta static object = {};
-        @method progressJobs(... args) {
+        @method async progressJobs(... args) {
           return spyMethod(... args);
         }
       }
@@ -408,12 +408,12 @@ describe('Queue', () => {
       }
 
       @initialize
-      @mixin(Test.NS.MemoryResqueMixin)
+      // @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
       class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResque';
         @meta static object = {};
-        @method completedJobs(... args) {
+        @method async completedJobs(... args) {
           return spyMethod(... args);
         }
       }
@@ -438,54 +438,54 @@ describe('Queue', () => {
       assert.equal(spyMethod.args[0][1], 'TEST_SCRIPT');
     });
   });
-});
-describe('.failed', () => {
-  it('should get failed jobs from queue', async () => {
-    const RESQUE = 'RESQUE';
-    const JOB = {
-      id: '42',
-      job: 'job'
-    };
-    const spyMethod = sinon.spy(() => {
-      return [JOB];
-    });
+  describe('.failed', () => {
+    it('should get failed jobs from queue', async () => {
+      const RESQUE = 'RESQUE';
+      const JOB = {
+        id: '42',
+        job: 'job'
+      };
+      const spyMethod = sinon.spy(() => {
+        return [JOB];
+      });
 
-    @initialize
-    @plugin(DelayableAddon)
-    class Test extends LeanES {
-      @nameBy static __filename = 'Test';
-      @meta static object = {};
-    }
-
-    @initialize
-    @mixin(Test.NS.MemoryResqueMixin)
-    @partOf(Test)
-    class TestResque extends Test.NS.Resque {
-      @nameBy static __filename = 'TestResque';
-      @meta static object = {};
-      @method failedJobs(... args) {
-        return spyMethod(... args);
+      @initialize
+      @plugin(DelayableAddon)
+      class Test extends LeanES {
+        @nameBy static __filename = 'Test';
+        @meta static object = {};
       }
-    }
 
-    @initialize
-    @partOf(Test)
-    class MyQueue extends Test.NS.Queue {
-      @nameBy static __filename = 'MyQueue';
-      @meta static object = {};
-    }
-    const resque = TestResque.new();
-    resque.setName(RESQUE);
-    const queue = MyQueue.new({
-      name: 'TEST_QUEUE',
-      concurrency: 4
-    }, resque);
-    const UNTIL_DATE = new Date();
-    const jobs = await queue.failed('TEST_SCRIPT');
-    assert.deepEqual(jobs, [JOB]);
-    assert.isTrue(spyMethod.called);
-    assert.equal(spyMethod.args[0][0], 'TEST_QUEUE');
-    assert.equal(spyMethod.args[0][1], 'TEST_SCRIPT');
+      @initialize
+      // @mixin(Test.NS.MemoryResqueMixin)
+      @partOf(Test)
+      class TestResque extends Test.NS.Resque {
+        @nameBy static __filename = 'TestResque';
+        @meta static object = {};
+        @method async failedJobs(... args) {
+          return spyMethod(... args);
+        }
+      }
+
+      @initialize
+      @partOf(Test)
+      class MyQueue extends Test.NS.Queue {
+        @nameBy static __filename = 'MyQueue';
+        @meta static object = {};
+      }
+      const resque = TestResque.new();
+      resque.setName(RESQUE);
+      const queue = MyQueue.new({
+        name: 'TEST_QUEUE',
+        concurrency: 4
+      }, resque);
+      const UNTIL_DATE = new Date();
+      const jobs = await queue.failed('TEST_SCRIPT');
+      assert.deepEqual(jobs, [JOB]);
+      assert.isTrue(spyMethod.called);
+      assert.equal(spyMethod.args[0][0], 'TEST_QUEUE');
+      assert.equal(spyMethod.args[0][1], 'TEST_SCRIPT');
+    });
   });
   describe('.replicatedObject', () => {
     let facade = null;
@@ -556,8 +556,8 @@ describe('.failed', () => {
       }
 
       @initialize
-      @mixin(Test.NS.MemoryResqueMixin)
       @partOf(Test)
+      @mixin(Test.NS.MemoryResqueMixin)
       class TestResque extends Test.NS.Resque {
         @nameBy static __filename = 'TestResque';
         @meta static object = {};
@@ -578,7 +578,7 @@ describe('.failed', () => {
       const resque = facade.retrieveProxy(RESQUE);
       const NAME = 'TEST_QUEUE';
       const queue = await resque.create(NAME, 4);
-      const restoredQueue = await MyQueue.restoreObject(Test, {
+      const restoredQueue = await Test.NS.Queue.restoreObject(Test, {
         type: 'instance',
         class: 'Queue',
         multitonKey: KEY,

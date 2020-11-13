@@ -13,6 +13,18 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with leanes-delayable-addon.  If not, see <https://www.gnu.org/licenses/>.
 
+type JobT = {
+  queueName: string,
+  data: {|
+    scriptName: string,
+    data: any
+  |},
+  delayUntil: number,
+  status: ('scheduled' | 'failed' | 'queued' | 'running' | 'completed'),
+  lockLifetime: 5000,
+  lockLimit: 2
+}
+
 export default (Module) => {
   const {
     DEFAULT_QUEUE,
@@ -26,20 +38,8 @@ export default (Module) => {
     class Mixin extends BaseClass {
       @meta static object = {};
 
-      // ipoJobs = PointerT(this.protected({
-      @property _jobs: {[key: string]: ?Array<?{
-        queueName: string,
-        data: {|
-          scriptName: string,
-          data: any
-        |},
-        delayUntil: number,
-        status: ('scheduled' | 'failed' | 'queued' | 'running' | 'completed'),
-        lockLifetime: 5000,
-        lockLimit: 2
-      }>} = null;
+      @property _jobs: {[key: string]: ?Array<?JobT>} = null;
 
-      // ipoQueues = PointerT(this.protected({
       @property _queues: {[key: string]: ?{|
         name: string,
         concurrency: number
@@ -139,7 +139,7 @@ export default (Module) => {
       @method async getJob(
         queueName: string,
         jobId: string | number
-      ): Promise<?object> {
+      ): Promise<?JobT> {
         const fullName = this.fullQueueName(queueName);
         if (this._jobs[fullName] == null) {
           this._jobs[fullName] = [];
@@ -185,7 +185,7 @@ export default (Module) => {
       @method async allJobs(
         queueName: string,
         scriptName: ?string = null
-      ): Promise<object[]> {
+      ): Promise<Array<?JobT>> {
         const fullName = this.fullQueueName(queueName);
         if (this._jobs[fullName] == null) {
           this._jobs[fullName] = [];
@@ -206,7 +206,7 @@ export default (Module) => {
       @method async pendingJobs(
         queueName: string,
         scriptName: ?string = null
-      ): Promise<object[]> {
+      ): Promise<Array<?JobT>> {
         const fullName = this.fullQueueName(queueName);
         if (this._jobs[fullName] == null) {
           this._jobs[fullName] = [];
@@ -232,7 +232,7 @@ export default (Module) => {
       @method async progressJobs(
         queueName: string,
         scriptName: ?string = null
-      ): Promise<object[]> {
+      ): Promise<Array<?JobT>> {
         const fullName = this.fullQueueName(queueName);
         if (this._jobs[fullName] == null) {
           this._jobs[fullName] = [];
@@ -257,7 +257,7 @@ export default (Module) => {
       @method async completedJobs(
         queueName: string,
         scriptName: ?string = null
-      ): Promise<object[]> {
+      ): Promise<Array<?JobT>> {
         const fullName = this.fullQueueName(queueName);
         if (this._jobs[fullName] == null) {
           this._jobs[fullName] = [];
@@ -282,7 +282,7 @@ export default (Module) => {
       @method async failedJobs(
         queueName: string,
         scriptName: ?string = null
-      ): Promise<object[]> {
+      ): Promise<Array<?JobT>> {
         const fullName = this.fullQueueName(queueName);
         if (this._jobs[fullName] == null) {
           this._jobs[fullName] = [];

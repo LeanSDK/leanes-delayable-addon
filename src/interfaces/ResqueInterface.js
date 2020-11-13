@@ -16,7 +16,6 @@
 import type { QueueInterface } from './QueueInterface';
 
 export interface ResqueInterface {
-
   _resqueI: 'ResqueInterface';
 
   tmpJobs: Array<{|
@@ -88,10 +87,10 @@ export interface ResqueInterface {
     delayUntil: ?number
   ): Promise<string | number>;
 
-  getJob(
+  getJob<T = ?object>(
     queueName: string,
     jobId: string | number
-  ): Promise<?object>;
+  ): Promise<T>;
 
   deleteJob(
     queueName: string,
@@ -103,28 +102,28 @@ export interface ResqueInterface {
     jobId: string | number
   ): Promise<void>;
 
-  allJobs(
+  allJobs<T = ?object>(
     queueName: string,
     scriptName: ?string
-  ): Promise<object[]>;
+  ): Promise<Array<T>>;
 
-  pendingJobs(
+  pendingJobs<T = ?object>(
     queueName: string,
     scriptName: ?string
-  ): Promise<object[]>;
+  ): Promise<Array<T>>;
 
-  progressJobs(
+  progressJobs<T = ?object>(
     queueName: string,
     scriptName: ?string
-  ): Promise<object[]>;
+  ): Promise<Array<T>>;
 
-  completedJobs(
+  completedJobs<T = ?object>(
     queueName: string,
     scriptName: ?string
-  ): Promise<object[]>;
+  ): Promise<Array<T>>;
 
-  failedJobs(
+  failedJobs<T = ?object>(
     queueName: string,
     scriptName: ?string
-  ): Promise<object[]>;
+  ): Promise<Array<T>>;
 }
