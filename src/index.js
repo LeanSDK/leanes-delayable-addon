@@ -40,6 +40,22 @@ export default (Module) => {
   } = Module.NS;
 
   return ['DelayableAddon', (BaseClass) => {
+    @FacadePatchTF
+
+    @MemoryResqueExecutorTF
+    @MemoryResqueTF
+
+    @MemoryExecutorMixinTF
+    @MemoryResqueMixinTF
+    @SaveDelayedJobsMixinTF
+    @DelayableMixinTF
+
+    @ResqueExecutorTF
+    @DelayedJobCommandTF
+    @ResqueTF
+
+    @QueueTF
+
     @initializeMixin
     class Mixin extends BaseClass {
       @meta static object = {};
@@ -56,21 +72,6 @@ export default (Module) => {
         patch(this.NS.FacadePatch)(this.NS.Facade);
       }
     }
-    QueueTF(Mixin);
-    ResqueTF(Mixin);
-    DelayedJobCommandTF(Mixin);
-    ResqueExecutorTF(Mixin);
-
-    DelayableMixinTF(Mixin);
-    SaveDelayedJobsMixinTF(Mixin);
-    MemoryResqueMixinTF(Mixin);
-    MemoryExecutorMixinTF(Mixin);
-
-    MemoryResqueTF(Mixin);
-    MemoryResqueExecutorTF(Mixin);
-
-    FacadePatchTF(Mixin);
-
     return Mixin;
   }]
 }
