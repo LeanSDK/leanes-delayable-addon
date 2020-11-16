@@ -1,7 +1,8 @@
 const { expect, assert } = require('chai');
 const sinon = require('sinon');
 const _ = require('lodash');
-const DelayableAddon = require("../../src/index.js").default;
+const path = process.env.ENV === 'build' ? "../../lib/index.dev" : "../../src/index.js";
+const DelayableAddon = require(path).default;
 const LeanES = require('@leansdk/leanes/src').default;
 const {
   initialize, partOf, nameBy, meta, constant, mixin, property, method, attribute, action, plugin

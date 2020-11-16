@@ -1,6 +1,7 @@
 const EventEmitter = require('events');
 const { expect, assert } = require('chai');
-const DelayableAddon = require("../../src/index.js").default;
+const path = process.env.ENV === 'build' ? "../../lib/index.dev" : "../../src/index.js";
+const DelayableAddon = require(path).default;
 const LeanES = require('@leansdk/leanes/src').default;
 const {
   initialize, partOf, nameBy, meta, constant, mixin, method, plugin

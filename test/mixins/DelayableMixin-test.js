@@ -1,5 +1,6 @@
 const {expect, assert} = require('chai');
-const DelayableAddon = require("../../src/index.js").default;
+const path = process.env.ENV === 'build' ? "../../lib/index.dev" : "../../src/index.js";
+const DelayableAddon = require(path).default;
 const LeanES = require('@leansdk/leanes/src').default;
 const {
   initialize, partOf, nameBy, meta, mixin, constant, method, plugin
@@ -240,13 +241,13 @@ describe('DelayableMixin', () => {
       // }
 
       @initialize
-      @mixin(Test.NS.DelayableMixin)
       @partOf(Test)
+      @mixin(Test.NS.DelayableMixin)
       class TestTest extends LeanES.NS.CoreObject {
         @nameBy static  __filename = 'TestTest';
         @meta static object = {};
 
-        @method static test () {}
+        @method test () {}
       }
       // const rq = TestResque.new();
       // rq.setName(LeanES.NS.RESQUE);
@@ -254,7 +255,8 @@ describe('DelayableMixin', () => {
       const resque = facade.retrieveProxy(Test.NS.RESQUE);
       await resque.create(Test.NS.DELAYED_JOBS_QUEUE, 4);
       const DELAY_UNTIL = Date.now();
-      await TestTest.delay({
+      const testObject = TestTest.new();
+      await testObject.delay({
         queue: Test.NS.DELAYED_JOBS_QUEUE,
         delayUntil: DELAY_UNTIL
       }).test('ARG_1', 'ARG_2', 'ARG_3');
@@ -292,7 +294,7 @@ describe('DelayableMixin', () => {
             moduleName: 'Test',
             replica: {
               class: 'TestTest',
-              type: 'class'
+              type: 'instance'
             },
             methodName: 'test',
             args: ['ARG_1', 'ARG_2', 'ARG_3'],

@@ -32,13 +32,14 @@ export type { QueueInterface } from './interfaces/QueueInterface';
 export type { ResqueInterface } from './interfaces/ResqueInterface';
 export type { DelayableInterface } from './interfaces/DelayableInterface';
 
+export type { NotificationInterface } from './interfaces/NotificationInterface';
+
 export default (Module) => {
   const {
-    Module: BaseModule,
     initializeMixin, meta, constant, method, patch
   } = Module.NS;
 
-  return ['DelayableAddon', (BaseClass: Class<BaseModule>) => {
+  return ['DelayableAddon', (BaseClass) => {
     @initializeMixin
     class Mixin extends BaseClass {
       @meta static object = {};

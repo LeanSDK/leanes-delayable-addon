@@ -14,12 +14,11 @@
 // along with leanes-delayable-addon.  If not, see <https://www.gnu.org/licenses/>.
 
 import type { NotificationInterface } from '../interfaces/NotificationInterface';
-import type { RecoverableStaticInterface } from '../interfaces/RecoverableStaticInterface';
 
 export default (Module) => {
   const {
     DELAYED_JOB_RESULT,
-    Proto, Command, Notification,
+    Proto, Command,
     assert,
     initialize, partOf, meta, method, nameBy
   } = Module.NS;
@@ -41,13 +40,11 @@ export default (Module) => {
 
       switch (replica.type) {
         case 'class':
-          (Proto: Class<{restoreObject: $PropertyType<RecoverableStaticInterface<Proto>, 'restoreObject'>}>);
           replicated = await Proto.restoreObject(ApplicationModule, replica);
           await replicated[methodName](...args);
           break;
         case 'instance':
           const vcInstanceClass = ApplicationModule.NS[replica.class];
-          (vcInstanceClass: Class<{restoreObject: $PropertyType<RecoverableStaticInterface<vcInstanceClass>, 'restoreObject'>}>);
           replicated = await vcInstanceClass.restoreObject(ApplicationModule, replica);
           await replicated[methodName](...args);
           break;
