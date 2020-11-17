@@ -22,12 +22,11 @@ import type { NotificationInterface } from '../interfaces/NotificationInterface'
 export default (Module) => {
   const {
     DELAYED_JOB_RESULT, START_RESQUE, RESQUE, RESQUE_EXECUTOR,
-    ResqueExecutor,
     initializeMixin, meta, property, method, inject,
     Utils: { _, genRandomAlphaNumbers }
   } = Module.NS;
 
-  Module.defineMixin(__filename, (BaseClass: Class<ResqueExecutor>) => {
+  Module.defineMixin(__filename, (BaseClass) => {
     @initializeMixin
     class Mixin extends BaseClass {
       @meta static object = {};

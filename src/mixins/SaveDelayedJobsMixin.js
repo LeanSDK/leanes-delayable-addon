@@ -18,11 +18,10 @@ import type { ResqueInterface } from '../interfaces/ResqueInterface';
 export default (Module) => {
   const {
     RESQUE, DELAYED_JOBS_QUEUE,
-    CoreObject,
     initializeMixin, meta, property, method, inject
   } = Module.NS;
 
-  Module.defineMixin(__filename, (BaseClass: Class<CoreObject>) => {
+  Module.defineMixin(__filename, (BaseClass) => {
     @initializeMixin
     class Mixin extends BaseClass {
       @meta static object = {};

@@ -28,12 +28,11 @@ type JobT = {
 export default (Module) => {
   const {
     DEFAULT_QUEUE,
-    Resque,
     initializeMixin, meta, property, method,
     Utils: { _, inflect }
   } = Module.NS;
 
-  Module.defineMixin(__filename, (BaseClass: Class<Resque>) => {
+  Module.defineMixin(__filename, (BaseClass) => {
     @initializeMixin
     class Mixin extends BaseClass {
       @meta static object = {};
