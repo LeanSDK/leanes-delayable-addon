@@ -13,20 +13,20 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with leanes-delayable-addon.  If not, see <https://www.gnu.org/licenses/>.
 
-import QueueTF from './queue/Queue';
-import ResqueTF from './proxies/Resque';
-import DelayedJobCommandTF from './commands/DelayedJobCommand';
-import ResqueExecutorTF from './mediators/ResqueExecutor';
+import Queue from './queue/Queue';
+import Resque from './proxies/Resque';
+import DelayedJobCommand from './commands/DelayedJobCommand';
+import ResqueExecutor from './mediators/ResqueExecutor';
 
-import DelayableMixinTF from './mixins/DelayableMixin';
-import SaveDelayedJobsMixinTF from './mixins/SaveDelayedJobsMixin';
-import MemoryResqueMixinTF from './mixins/MemoryResqueMixin';
-import MemoryExecutorMixinTF from './mixins/MemoryExecutorMixin';
+import DelayableMixin from './mixins/DelayableMixin';
+import SaveDelayedJobsMixin from './mixins/SaveDelayedJobsMixin';
+import MemoryResqueMixin from './mixins/MemoryResqueMixin';
+import MemoryExecutorMixin from './mixins/MemoryExecutorMixin';
 
-import MemoryResqueTF from './proxies/MemoryResque';
-import MemoryResqueExecutorTF from './mediators/MemoryResqueExecutor';
+import MemoryResque from './proxies/MemoryResque';
+import MemoryResqueExecutor from './mediators/MemoryResqueExecutor';
 
-import FacadePatchTF from './patches/FacadePatch';
+import FacadePatch from './patches/FacadePatch';
 
 export type { QueueInterface } from './interfaces/QueueInterface';
 export type { ResqueInterface } from './interfaces/ResqueInterface';
@@ -40,21 +40,21 @@ export default (Module) => {
   } = Module.NS;
 
   return ['DelayableAddon', (BaseClass) => {
-    @FacadePatchTF
+    @FacadePatch
 
-    @MemoryResqueExecutorTF
-    @MemoryResqueTF
+    @MemoryResqueExecutor
+    @MemoryResque
 
-    @MemoryExecutorMixinTF
-    @MemoryResqueMixinTF
-    @SaveDelayedJobsMixinTF
-    @DelayableMixinTF
+    @MemoryExecutorMixin
+    @MemoryResqueMixin
+    @SaveDelayedJobsMixin
+    @DelayableMixin
 
-    @ResqueExecutorTF
-    @DelayedJobCommandTF
-    @ResqueTF
+    @ResqueExecutor
+    @DelayedJobCommand
+    @Resque
 
-    @QueueTF
+    @Queue
 
     @initializeMixin
     class Mixin extends BaseClass {
