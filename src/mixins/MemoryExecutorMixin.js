@@ -67,7 +67,9 @@ export default (Module) => {
 
       @method onRegister(...args) {
         super.onRegister(...args);
-        this.setViewComponent(new EventEmitter());
+        const emitter = new EventEmitter();
+        emitter.setMaxListeners(Number.MAX_SAFE_INTEGER);
+        this.setViewComponent(emitter);
         this._concurrencyCount = {};
         this._definedProcessors = {};
         this.defineProcessors();
