@@ -26,7 +26,7 @@ import MemoryExecutorMixin from './mixins/MemoryExecutorMixin';
 import MemoryResque from './proxies/MemoryResque';
 import MemoryResqueExecutor from './mediators/MemoryResqueExecutor';
 
-import FacadePatch from './patches/FacadePatch';
+import DelayableFacadeMixin from './mixins/DelayableFacadeMixin';
 
 export type { QueueInterface } from './interfaces/QueueInterface';
 export type { ResqueInterface } from './interfaces/ResqueInterface';
@@ -36,11 +36,13 @@ export type { NotificationInterface } from './interfaces/NotificationInterface';
 
 export default (Module) => {
   const {
-    initializeMixin, meta, constant, method, patch
+    initializeMixin, meta, constant, extend
   } = Module.NS;
 
   return ['DelayableAddon', (BaseClass) => {
-    @FacadePatch
+    @extend('DelayableFacadeMixin', 'Facade')
+
+    @DelayableFacadeMixin
 
     @MemoryResqueExecutor
     @MemoryResque
@@ -67,10 +69,6 @@ export default (Module) => {
       @constant DELAYED_JOB_COMMAND = 'DelayedJobCommand';
       @constant DEFAULT_QUEUE = 'default';
       @constant DELAYED_JOB_RESULT = 'DELAYED_JOB_RESULT';
-
-      @method static including() {
-        patch(this.NS.FacadePatch)(this.NS.Facade);
-      }
     }
     return Mixin;
   }]

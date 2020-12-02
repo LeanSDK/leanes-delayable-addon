@@ -17,13 +17,13 @@ export default (Module) => {
   const {
     DELAYED_JOB_COMMAND, RESQUE, RESQUE_EXECUTOR,
     Facade,
-    initializePatch, meta, method,
+    initializeMixin, meta, method,
     Utils: { _ }
   } = Module.NS;
 
-  Module.definePatch(__filename, (BaseClass) => {
-    @initializePatch
-    class Patch extends BaseClass {
+  Module.defineMixin(__filename, (BaseClass) => {
+    @initializeMixin
+    class Mixin extends BaseClass {
       @meta static object = {};
 
       @method initializeFacade(): void {
@@ -33,6 +33,6 @@ export default (Module) => {
         this.addMediator(RESQUE_EXECUTOR, 'MemoryResqueExecutor')
       }
     }
-    return Patch;
+    return Mixin;
   });
 }
