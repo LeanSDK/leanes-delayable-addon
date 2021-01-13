@@ -1,0 +1,19 @@
+check-leaks: true
+color: true
+extension:
+  - 'js'
+file:
+  - './test/commands/DelayedJobCommand-test.js'
+  - './test/mixins/DelayableMixin-test.js'
+  - './test/mixins/MemoryExecutorMixin-test.js'
+  - './test/mixins/MemoryResqueMixin-test.js'
+  - './test/proxies/Resque-test.js'
+  - './test/queue/Queue-test.js'
+full-trace: true
+growl: true
+recursive: false
+reporter: 'spec'
+# require: '@babel/register'
+require: 'register-babel.js'
+# spec: 'test/**/**/*-test.js'
+watch: false
